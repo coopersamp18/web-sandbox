@@ -339,10 +339,519 @@
                 scroll-snap-align: center;
             }
         }
+
+        /* ─── Mega menu / header ─── */
+        .mega-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250, 247, 244, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(27, 75, 75, 0.08);
+        }
+        .mega-nav-item {
+            position: relative;
+        }
+        .mega-nav-item > a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 1rem 0.5rem;
+            font-weight: 500;
+            color: #1B4B4B;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .mega-nav-item > a:hover { color: #E07A6A; }
+        .mega-nav-item[data-open] > a { color: #E07A6A; }
+        .mega-dropdown {
+            position: absolute;
+            left: 0;
+            transform: translateY(8px);
+            top: 100%;
+            min-width: min(90vw, 640px);
+            padding: 1.5rem 2rem 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(27, 75, 75, 0.12), 0 0 0 1px rgba(27, 75, 75, 0.06);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+        }
+        #mega-services {
+            min-width: unset;
+            width: min(90vw, 720px);
+        }
+        #mega-services .mega-dropdown-grid {
+            grid-template-columns: 1.5fr 1fr;
+        }
+        #mega-locations.mega-dropdown {
+            min-width: min(90vw, 720px);
+        }
+        #mega-membership.mega-dropdown {
+            left: 0;
+            right: auto;
+            min-width: unset;
+            width: min(90vw, 560px);
+            max-width: calc(100vw - 1.5rem);
+        }
+        .mega-nav-item[data-open] .mega-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .mega-dropdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .mega-locations-grid {
+            grid-template-columns: 1fr minmax(280px, 380px);
+            min-width: min(90vw, 720px);
+        }
+        .mega-locations-map {
+            display: block;
+        }
+        .us-map-wrap {
+            width: 100%;
+            max-width: 320px;
+            margin-left: auto;
+        }
+        .us-map-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+        @media (max-width: 1023px) {
+            .mega-locations-map {
+                display: none;
+            }
+            .mega-locations-grid {
+                grid-template-columns: 1fr;
+                min-width: auto;
+            }
+        }
+        .mega-col h4 {
+            font-family: 'New Spirit', Georgia, serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #1B4B4B;
+            margin-bottom: 1rem;
+        }
+        .mega-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .mega-col ul li { margin-bottom: 0.5rem; }
+        .mega-col a {
+            color: #1B4B4B;
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .mega-col a:hover { color: #E07A6A; }
+        .mega-insight {
+            background: #E8F4F0;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-top: 0.5rem;
+        }
+        .mega-insight p {
+            font-size: 0.875rem;
+            color: #1B4B4B;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+        .mega-insight a {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #E07A6A;
+        }
+        .mega-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #E07A6A;
+            color: #fff !important;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: box-shadow 0.2s ease, transform 0.1s ease;
+        }
+        .mega-cta:hover {
+            box-shadow: 0 4px 14px rgba(224, 122, 106, 0.4);
+            transform: translateY(-1px);
+        }
+        .mega-mobile-toggle {
+            display: none;
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            color: #1B4B4B;
+            cursor: pointer;
+        }
+        .mega-mobile-menu {
+            display: none;
+            background: #fff;
+            border-top: 1px solid rgba(27, 75, 75, 0.08);
+            padding: 0 1rem; /* changed from 1rem to 0 1rem to hide padding when closed */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        .mega-mobile-menu[data-open] { 
+            max-height: 80vh; 
+            padding: 1rem; /* add padding back when open */
+            overflow-y: auto; 
+        }
+        .mega-mobile-menu .mega-col { margin-bottom: 1rem; }
+        .mega-mobile-menu .mega-dropdown-grid { grid-template-columns: 1fr; }
+        .mega-services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        @media (max-width: 1100px) {
+            #mega-services {
+                width: min(90vw, 560px);
+            }
+            #mega-services .mega-dropdown-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            .mega-services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .mega-service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+        .mega-service-item:hover {
+            background: #E8F4F0;
+        }
+        .mega-service-icon {
+            flex-shrink: 0;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 8px;
+            background: #FAF7F4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #E07A6A;
+        }
+        .mega-service-item:hover .mega-service-icon {
+            background: #fff;
+        }
+        .mega-service-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .mega-service-title {
+            color: #1B4B4B;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin-bottom: 0.125rem;
+        }
+        .mega-service-desc {
+            color: rgba(27, 75, 75, 0.6);
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+        .mega-inline-arrow-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            color: #E07A6A;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding-bottom: 0.125rem;
+            transition: color 0.2s ease;
+        }
+        .mega-inline-arrow-link::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 1.5px;
+            background: currentColor;
+            transform: translateX(-50%);
+            transition: width 0.25s ease;
+        }
+        .mega-inline-arrow-link:hover::after,
+        .mega-inline-arrow-link:focus-visible::after {
+            width: 100%;
+        }
+        @media (max-width: 1023px) {
+            .mega-nav-list { display: none; }
+            .mega-mobile-toggle { display: flex; align-items: center; justify-content: center; }
+            .mega-mobile-menu { display: block; }
+        }
+        @media (min-width: 1024px) {
+            .mega-mobile-menu[data-open] { display: none; }
+        }
     </style>
 </head>
 
 <body class="bg-sploot-cream text-sploot-teal font-sans">
+
+<!-- Mega menu header (Minto-style) -->
+<header class="mega-header">
+    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-16 md:h-18">
+        <a href="/" class="inline-flex items-center" aria-label="Sploot home">
+            <img src="./photos/logo.avif" alt="Sploot logo" class="h-8 md:h-9 w-auto">
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+            <div class="mega-nav-item" data-mega="locations">
+                <a href="/locations">Locations <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+                <div class="mega-dropdown" id="mega-locations">
+                    <div class="mega-dropdown-grid">
+                        <div class="mega-col">
+                            <h4>Locations</h4>
+                            <h5 class="text-[0.65rem] font-bold text-sploot-teal/50 uppercase tracking-wider mb-1.5 mt-3">Colorado</h5>
+                            <ul class="mega-locations-list mb-3">
+                                <li><a href="/locations/denver">Denver</a></li>
+                                <li><a href="/locations/colorado-springs">Colorado Springs</a></li>
+                            </ul>
+                            <h5 class="text-[0.65rem] font-bold text-sploot-teal/50 uppercase tracking-wider mb-1.5 mt-3">Illinois</h5>
+                            <ul class="mega-locations-list mb-3">
+                                <li><a href="/locations/chicago">Chicago</a></li>
+                            </ul>
+                            <h5 class="text-[0.65rem] font-bold text-sploot-teal/50 uppercase tracking-wider mb-1.5 mt-3">Utah</h5>
+                            <ul class="mega-locations-list">
+                                <li><a href="/locations/salt-lake-city">Salt Lake City</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-col">
+                            <h4>Visit us</h4>
+                            <div class="mega-insight mb-4">
+                                <p>Open 8am–8pm, 365 days a year. Same-day appointments and <a href="/services#urgent-care" class="underline underline-offset-2 decoration-sploot-teal/30 hover:decoration-sploot-coral hover:text-sploot-coral transition-colors" style="display:inline; font-size:inherit; font-weight:inherit;">urgent drop-offs</a> welcome.</p>
+                                <a href="https://www.splootvets.com/book">Book now</a>
+                            </div>
+                            <h4>Need care today?</h4>
+                            <div class="mega-insight bg-sploot-coral/10">
+                                <p>Find the clinic nearest you with the earliest available appointment time.</p>
+                                <a href="/todays-availability" class="flex items-center gap-1">Check today's availability <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mega-nav-item" data-mega="services">
+                <a href="/services">Services <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+                <div class="mega-dropdown" id="mega-services">
+                    <div class="mega-dropdown-grid">
+                        <div class="mega-col">
+                            <h4>Our Services</h4>
+                            <div class="mega-services-grid">
+                                <a href="/services#urgent-care" class="mega-service-item">
+                                    <div class="mega-service-icon">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div class="mega-service-text">
+                                        <span class="mega-service-title">Urgent Care & Sick Visits</span>
+                                        <span class="mega-service-desc">Same-day help for illness and injuries</span>
+                                    </div>
+                                </a>
+                                <a href="/services#wellness" class="mega-service-item">
+                                    <div class="mega-service-icon">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                    </div>
+                                    <div class="mega-service-text">
+                                        <span class="mega-service-title">Wellness & Preventive</span>
+                                        <span class="mega-service-desc">Exams, diagnostics, and routine care</span>
+                                    </div>
+                                </a>
+                                <a href="/services#vaccinations" class="mega-service-item">
+                                    <div class="mega-service-icon">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                                    </div>
+                                    <div class="mega-service-text">
+                                        <span class="mega-service-title">Vaccinations</span>
+                                        <span class="mega-service-desc">Core and lifestyle vaccines</span>
+                                    </div>
+                                </a>
+                                <a href="/services#spay-neuter" class="mega-service-item">
+                                    <div class="mega-service-icon">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/></svg>
+                                    </div>
+                                    <div class="mega-service-text">
+                                        <span class="mega-service-title">Spay & Neuter</span>
+                                        <span class="mega-service-desc">Safe and comfortable procedures</span>
+                                    </div>
+                                </a>
+                                <a href="/services#dental" class="mega-service-item">
+                                    <div class="mega-service-icon">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div class="mega-service-text">
+                                        <span class="mega-service-title">Dental Care</span>
+                                        <span class="mega-service-desc">Cleanings, x-rays, and extractions</span>
+                                    </div>
+                                </a>
+                                <a href="/services#surgery" class="mega-service-item">
+                                    <div class="mega-service-icon">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                                    </div>
+                                    <div class="mega-service-text">
+                                        <span class="mega-service-title">Surgery</span>
+                                        <span class="mega-service-desc">Soft tissue and advanced procedures</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mega-col">
+                            <div class="mega-insight">
+                                <p>Primary and urgent care under one roof — what to expect at Sploot.</p>
+                                <a href="/about" class="text-sploot-teal/60 hover:text-sploot-coral font-medium underline underline-offset-2 decoration-sploot-teal/20" style="font-size: 0.8125rem;">Read more</a>
+                            </div>
+                            <a href="/services" class="mt-4 mega-inline-arrow-link">
+                                See all services 
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mega-nav-item" data-mega="membership">
+                <a href="/membership">Membership <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+                <div class="mega-dropdown" id="mega-membership">
+                    <div class="mega-dropdown-grid">
+                        <div class="mega-col">
+                            <h4>Membership</h4>
+                            <p class="text-sm text-sploot-teal/70 mb-4 leading-relaxed">Join the Sploot pack for exclusive perks, unlimited exams, and more.</p>
+                            <ul>
+                                <li><a href="/membership/colorado" class="flex items-center gap-2">Colorado</a></li>
+                                <li><a href="/membership/illinois" class="flex items-center gap-2">Illinois</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-col">
+                            <h4>Member Perks</h4>
+                            <div class="mega-insight">
+                                <ul class="text-sm text-sploot-teal mb-3 space-y-1.5">
+                                    <li class="flex items-center gap-2"><svg class="w-4 h-4 text-sploot-coral shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 3 free exams</li>
+                                    <li class="flex items-center gap-2"><svg class="w-4 h-4 text-sploot-coral shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 10% off everything</li>
+                                    <li class="flex items-center gap-2"><svg class="w-4 h-4 text-sploot-coral shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> And more!</li>
+                                </ul>
+                                <a href="/membership">See all benefits</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="/splootrx" class="px-4 py-3 font-medium text-sploot-teal hover:text-sploot-coral transition-colors">Pharmacy</a>
+            <a href="/careers" class="px-4 py-3 font-medium text-sploot-teal hover:text-sploot-coral transition-colors">Careers</a>
+        </nav>
+        <div class="flex items-center gap-3">
+            <a href="https://www.splootvets.com/book" class="hidden sm:inline-flex items-center gap-2 bg-sploot-coral text-white px-4 py-2 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-sploot-coral/20 transition-all">Book Now</a>
+            <button type="button" class="mega-mobile-toggle lg:hidden" id="mega-mobile-btn" aria-label="Open menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+    </div>
+    <!-- Mobile mega menu (same content, stacked) -->
+    <div class="mega-mobile-menu lg:hidden" id="mega-mobile-menu">
+        <div class="mega-dropdown-grid">
+            <div class="mega-col">
+                <h4>Locations</h4>
+                <h5 class="text-[0.65rem] font-bold text-sploot-teal/50 uppercase tracking-wider mb-1.5 mt-3">Colorado</h5>
+                <ul class="mb-3">
+                    <li><a href="/locations/denver">Denver</a></li>
+                    <li><a href="/locations/colorado-springs">Colorado Springs</a></li>
+                </ul>
+                <h5 class="text-[0.65rem] font-bold text-sploot-teal/50 uppercase tracking-wider mb-1.5 mt-3">Illinois</h5>
+                <ul class="mb-3">
+                    <li><a href="/locations/chicago">Chicago</a></li>
+                </ul>
+                <h5 class="text-[0.65rem] font-bold text-sploot-teal/50 uppercase tracking-wider mb-1.5 mt-3">Utah</h5>
+                <ul>
+                    <li><a href="/locations/salt-lake-city">Salt Lake City</a></li>
+                </ul>
+            </div>
+            <div class="mega-col">
+                <h4>Our Services</h4>
+                <div class="mega-services-grid" style="grid-template-columns: 1fr;">
+                    <a href="/services#urgent-care" class="mega-service-item p-2">
+                        <div class="mega-service-icon w-8 h-8">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div class="mega-service-text">
+                            <span class="mega-service-title text-sm">Urgent Care & Sick Visits</span>
+                        </div>
+                    </a>
+                    <a href="/services#wellness" class="mega-service-item p-2">
+                        <div class="mega-service-icon w-8 h-8">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        </div>
+                        <div class="mega-service-text">
+                            <span class="mega-service-title text-sm">Wellness & Preventive</span>
+                        </div>
+                    </a>
+                    <a href="/services#vaccinations" class="mega-service-item p-2">
+                        <div class="mega-service-icon w-8 h-8">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                        </div>
+                        <div class="mega-service-text">
+                            <span class="mega-service-title text-sm">Vaccinations</span>
+                        </div>
+                    </a>
+                    <a href="/services#spay-neuter" class="mega-service-item p-2">
+                        <div class="mega-service-icon w-8 h-8">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/></svg>
+                        </div>
+                        <div class="mega-service-text">
+                            <span class="mega-service-title text-sm">Spay & Neuter</span>
+                        </div>
+                    </a>
+                    <a href="/services#dental" class="mega-service-item p-2">
+                        <div class="mega-service-icon w-8 h-8">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div class="mega-service-text">
+                            <span class="mega-service-title text-sm">Dental Care</span>
+                        </div>
+                    </a>
+                    <a href="/services#surgery" class="mega-service-item p-2">
+                        <div class="mega-service-icon w-8 h-8">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                        </div>
+                        <div class="mega-service-text">
+                            <span class="mega-service-title text-sm">Surgery</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="mega-col">
+                <h4>More</h4>
+                <ul>
+                    <li><a href="/membership/colorado">Membership — Colorado</a></li>
+                    <li><a href="/membership/illinois">Membership — Illinois</a></li>
+                    <li><a href="/splootrx">Pharmacy (SplootRx)</a></li>
+                    <li><a href="/careers">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <a href="https://www.splootvets.com/book" class="mega-cta mt-4 inline-flex">Book Now</a>
+    </div>
+</header>
 
 <!-- Spacer so you can scroll into the section -->
 <div class="h-[60vh] flex items-center justify-center">
@@ -526,6 +1035,46 @@
         });
     }, { threshold: 0.12 });
     io.observe(section);
+</script>
+
+<!-- ─── Mega menu JS ─── -->
+<script>
+(function() {
+    var header = document.querySelector('.mega-header');
+    var items = document.querySelectorAll('.mega-nav-item[data-mega]');
+    var mobileBtn = document.getElementById('mega-mobile-btn');
+    var mobileMenu = document.getElementById('mega-mobile-menu');
+
+    function closeAll() {
+        items.forEach(function(el) { el.removeAttribute('data-open'); });
+        if (mobileMenu) mobileMenu.removeAttribute('data-open');
+    }
+
+    items.forEach(function(item) {
+        var link = item.querySelector('a');
+        var panel = item.querySelector('.mega-dropdown');
+        if (!link || !panel) return;
+        link.addEventListener('mouseenter', function() {
+            closeAll();
+            item.setAttribute('data-open', '');
+        });
+        item.addEventListener('mouseleave', function() {
+            item.removeAttribute('data-open');
+        });
+    });
+
+    if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', function() {
+            var open = mobileMenu.hasAttribute('data-open');
+            if (open) mobileMenu.removeAttribute('data-open');
+            else mobileMenu.setAttribute('data-open', '');
+        });
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeAll();
+    });
+})();
 </script>
 
 <!-- ─── Hero slider JS ─── -->
