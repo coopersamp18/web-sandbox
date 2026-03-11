@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>SplootRx Section — Clinic Page Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Spirit (heading font) */
+        @font-face {
+            font-family: 'New Spirit';
+            src: url('Fonts/NewSpiritTRIAL-Regular%20copy.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'New Spirit';
+            src: url('Fonts/NewSpiritTRIAL-Medium%20copy.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'New Spirit';
+            src: url('Fonts/NewSpiritTRIAL-Bold%20copy.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sploot-teal': '#1B4B4B',
+                        'sploot-coral': '#E07A6A',
+                        'sploot-cream': '#FAF7F4',
+                        'sploot-mint': '#E8F4F0',
+                    },
+                    fontFamily: {
+                        'heading': ['New Spirit', 'Georgia', 'serif'],
+                        'sans': ['Outfit', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .font-heading { font-family: 'New Spirit', Georgia, serif; }
+        html { scroll-behavior: smooth; }
+
+        /* ─── Entrance animations ─── */
+        .rx-eyebrow {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .rx-headline {
+            opacity: 0;
+            clip-path: inset(100% 0 0 0);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+        }
+        .rx-subline {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+        .rx-cta-inline {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s;
+        }
+        .rx-hero-img {
+            opacity: 0;
+            transform: translateX(40px) scale(0.97);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+        .rx-hero-accent {
+            opacity: 0;
+            transform: translateX(50px) rotate(3deg) scale(0.95);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+        .rx-divider {
+            width: 0;
+            transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+        }
+        .rx-card {
+            opacity: 0;
+            transform: translateY(50px) scale(0.96);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .rx-card:nth-child(1) { transition-delay: 0.6s; }
+        .rx-card:nth-child(2) { transition-delay: 0.75s; }
+        .rx-card:nth-child(3) { transition-delay: 0.9s; }
+        .rx-bottom-cta {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.05s;
+        }
+
+        /* Active (in-view) states */
+        .rx-active .rx-eyebrow,
+        .rx-active .rx-subline,
+        .rx-active .rx-cta-inline,
+        .rx-active .rx-bottom-cta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .rx-active .rx-headline {
+            opacity: 1;
+            clip-path: inset(0 0 0 0);
+        }
+        .rx-active .rx-hero-img {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+        .rx-active .rx-hero-accent {
+            opacity: 1;
+            transform: translateX(0) rotate(3deg) scale(1);
+        }
+        .rx-active .rx-divider {
+            width: 100%;
+        }
+        .rx-active .rx-card {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ─── Card interactivity ─── */
+        .rx-card {
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .rx-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(224,122,106,0.35), rgba(27,75,75,0.15), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .rx-card:hover::before { opacity: 1; }
+
+        .rx-card-inner {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .rx-card:hover .rx-card-inner {
+            transform: translateY(-4px);
+        }
+        .rx-card-featured:hover .rx-card-inner {
+            transform: none;
+        }
+
+        /* Icon containers: scale + color change on card hover */
+        .rx-icon-wrap {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.3s ease;
+        }
+        .rx-card:hover .rx-icon-wrap {
+            transform: scale(1.1) rotate(-4deg);
+            background: #E07A6A;
+        }
+        .rx-card:hover .rx-icon-wrap svg {
+            color: white;
+        }
+        .rx-card-featured .rx-icon-wrap { background: rgba(255,255,255,0.15); }
+        .rx-card-featured:hover .rx-icon-wrap {
+            background: #E07A6A;
+        }
+        .rx-card-featured .rx-icon-wrap svg { color: #E07A6A; }
+        .rx-card-featured:hover .rx-icon-wrap svg { color: white; }
+
+        /* Hidden detail: space always reserved to avoid layout shift */
+        .rx-hidden-detail {
+            min-height: 2.25rem;
+            margin-top: 0.75rem;
+        }
+        .rx-hidden-detail span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .rx-card:hover .rx-hidden-detail span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Featured card glow */
+        .rx-card-featured {
+            box-shadow: 0 0 0 0 rgba(224,122,106,0);
+            transition: box-shadow 0.6s ease;
+        }
+        .rx-active .rx-card-featured {
+            box-shadow: 0 8px 40px rgba(224,122,106,0.12);
+        }
+        .rx-card-featured:hover {
+            box-shadow: 0 12px 48px rgba(224,122,106,0.22);
+        }
+
+        /* ─── CTA shine sweep ─── */
+        .rx-cta {
+            position: relative;
+            overflow: hidden;
+        }
+        .rx-cta::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .rx-cta:hover::after {
+            left: 120%;
+        }
+
+        /* ─── Hero image / slider treatment ─── */
+        .rx-img-wrap {
+            position: relative;
+        }
+        .rx-img-wrap .rx-accent-shape {
+            position: absolute;
+            inset: -12px;
+            background: linear-gradient(135deg, #E8F4F0 0%, #E07A6A20 100%);
+            border-radius: 2rem;
+            transform: rotate(3deg);
+            z-index: 0;
+        }
+        .rx-img-wrap img {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── Hero slider ─── */
+        .rx-hero-slider {
+            position: relative;
+            width: 100%;
+            height: 380px;
+        }
+        @media (min-width: 768px) {
+            .rx-hero-slider {
+                height: 440px;
+            }
+        }
+        .rx-hero-slider .rx-slide {
+            position: absolute;
+            inset: 0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .rx-hero-slider .rx-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        .rx-hero-slider .rx-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .rx-hero-slider .rx-slide-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(27, 75, 75, 0.75) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .rx-hero-slider .rx-slide-overlay span {
+            text-align: center;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .rx-slider-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .rx-slider-dots button {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(27, 75, 75, 0.25);
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .rx-slider-dots button:hover {
+            background: rgba(27, 75, 75, 0.5);
+        }
+        .rx-slider-dots button.active {
+            background: #1B4B4B;
+            transform: scale(1.2);
+        }
+
+        /* Floating badge on hero image */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .rx-float-badge {
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        /* ─── Mobile horizontal scroll ─── */
+        @media (max-width: 767px) {
+            .rx-cards-track {
+                display: flex;
+                gap: 1rem;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 1rem;
+                scrollbar-width: none;
+            }
+            .rx-cards-track::-webkit-scrollbar { display: none; }
+            .rx-cards-track > .rx-card {
+                flex: 0 0 85%;
+                scroll-snap-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-sploot-cream text-sploot-teal font-sans">
+
+<!-- Spacer so you can scroll into the section -->
+<div class="h-[60vh] flex items-center justify-center">
+    <p class="text-sploot-teal/40 text-lg font-medium tracking-wide">Scroll down to see the SplootRx section</p>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SplootRx Promo Section — Drop into any clinic page
+     ════════════════════════════════════════════════════════ -->
+<section id="splootrx-section" class="relative py-24 md:py-32 px-6 md:px-8 overflow-hidden bg-white">
+
+    <!-- Clean subtle background: top-right cream wash -->
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-sploot-cream/50 to-transparent pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto">
+
+        <!-- ═══ Top: Split hero (text left, image right) ═══ -->
+        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mb-16 md:mb-20">
+
+            <!-- Left: Copy -->
+            <div>
+                <!-- Eyebrow -->
+                <div class="rx-eyebrow flex items-center gap-3 mb-6">
+                    <span class="inline-block w-8 h-px bg-sploot-coral"></span>
+                    <span class="text-sploot-coral uppercase tracking-[0.25em] text-xs font-semibold">SplootRx</span>
+                </div>
+
+                <!-- Headline -->
+                <h2 class="rx-headline font-heading text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5">
+                    Your vet is now your pharmacy.
+                </h2>
+
+                <!-- Subline -->
+                <p class="rx-subline text-lg md:text-xl text-sploot-teal/55 max-w-md mb-8 leading-relaxed">
+                    Prescription meds, diet food & preventatives — approved by your Sploot vet and shipped to your door.
+                </p>
+
+                <!-- Inline CTA -->
+                <div class="rx-cta-inline flex flex-col sm:flex-row items-start gap-4">
+                    <a href="/splootrx" class="rx-cta inline-flex items-center gap-2 bg-sploot-coral text-white px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg shadow-sploot-coral/20 transition-all duration-300 hover:shadow-xl hover:shadow-sploot-coral/30 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
+                        Shop SplootRx
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <a href="/splootrx" class="text-sploot-teal/45 hover:text-sploot-coral text-sm font-medium transition-colors duration-300 underline underline-offset-4 decoration-sploot-teal/15 hover:decoration-sploot-coral/40 mt-2 sm:mt-3">
+                        Learn more
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Hero slider -->
+            <div class="rx-img-wrap">
+                <div class="rx-hero-accent rx-accent-shape"></div>
+                <div class="rx-hero-slider rx-hero-img relative z-10 rounded-3xl shadow-xl" id="rx-hero-slider">
+                    <!-- Slide 1: SplootRx -->
+                    <div class="rx-slide active" data-slide="0">
+                        <img src="./photos/slide-1.png" alt="SplootRx — Your vet is now your pharmacy">
+                    </div>
+                    <!-- Slide 2: Instant approvals -->
+                    <div class="rx-slide" data-slide="1">
+                        <img src="./photos/slide-2.png" alt="Instant approvals from your vet">
+                        <div class="rx-slide-overlay">
+                            <span>Select clinic · Order or refill · Delivered to your door</span>
+                        </div>
+                    </div>
+                    <!-- Slide 3: Image Enhancement Request -->
+                    <div class="rx-slide" data-slide="2">
+                        <img src="./photos/slie-3.png" alt="Image Enhancement Request">
+                        <div class="rx-slide-overlay">
+                            <span>35% off first order — Code: WELCOME</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rx-slider-dots" id="rx-slider-dots" aria-label="Slider navigation">
+                    <button type="button" class="active" aria-label="Slide 1" data-dot="0"></button>
+                    <button type="button" aria-label="Slide 2" data-dot="1"></button>
+                    <button type="button" aria-label="Slide 3" data-dot="2"></button>
+                </div>
+                <!-- Fulfilled by Vetsource badge -->
+                <div class="rx-float-badge absolute -bottom-5 -left-4 md:-left-6 bg-white rounded-2xl p-4 shadow-xl z-10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-sploot-mint rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-sploot-teal" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-sploot-teal/50 font-medium">Fulfilled by</p>
+                            <p class="text-sm font-bold text-sploot-teal">Vetsource</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Thin animated divider -->
+        <div class="rx-divider h-px bg-gradient-to-r from-sploot-coral/30 via-sploot-teal/10 to-transparent mb-14"></div>
+
+        <!-- ═══ Bottom: Benefit cards (icons + hover) ═══ -->
+        <div class="rx-cards-track grid md:grid-cols-3 gap-5 lg:gap-7 mb-12">
+
+            <!-- Card 1: Vet-Approved -->
+            <div class="rx-card bg-sploot-cream/60 backdrop-blur-sm rounded-3xl p-8 lg:p-10">
+                <div class="rx-card-inner">
+                    <div class="rx-icon-wrap w-14 h-14 bg-sploot-mint rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-sploot-teal transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold mb-2">Vet-Approved</h3>
+                    <p class="text-sploot-teal/55 text-sm leading-relaxed">
+                        Prescriptions pulled directly from your pet's medical record — no calls, no delays.
+                    </p>
+                    <div class="rx-hidden-detail mt-3">
+                        <span class="inline-block text-xs text-sploot-coral font-medium bg-sploot-coral/10 rounded-full px-3 py-1">Instant approvals from your vet</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Competitive Pricing — Featured -->
+            <div class="rx-card rx-card-featured bg-sploot-teal rounded-3xl p-8 lg:p-10 text-white">
+                <div class="rx-card-inner">
+                    <div class="rx-icon-wrap w-14 h-14 bg-white/15 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-sploot-coral transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold mb-2">Competitive Pricing</h3>
+                    <p class="text-white/65 text-sm leading-relaxed">
+                        Often priced lower than major online pet pharmacies, with 5%+ off autoship.
+                    </p>
+                    <div class="rx-hidden-detail mt-3">
+                        <span class="inline-block text-xs font-medium bg-white/15 rounded-full px-3 py-1 text-sploot-coral">Save vs. Chewy & 1-800-PetMeds</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Delivered to You -->
+            <div class="rx-card bg-sploot-cream/60 backdrop-blur-sm rounded-3xl p-8 lg:p-10">
+                <div class="rx-card-inner">
+                    <div class="rx-icon-wrap w-14 h-14 bg-sploot-mint rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-sploot-teal transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1m-2 0h2"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold mb-2">Delivered to You</h3>
+                    <p class="text-sploot-teal/55 text-sm leading-relaxed">
+                        Meds, food & essentials shipped from licensed veterinary pharmacies to your door.
+                    </p>
+                    <div class="rx-hidden-detail mt-3">
+                        <span class="inline-block text-xs text-sploot-coral font-medium bg-sploot-coral/10 rounded-full px-3 py-1">Autoship available — cancel anytime</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom CTA (secondary, centered) -->
+        <div class="rx-bottom-cta text-center">
+            <p class="text-sploot-teal/40 text-sm">
+                Heartworm prevention, allergy relief, prescription food, joint health & more
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- Spacer below -->
+<div class="h-[40vh] bg-sploot-cream"></div>
+
+<!-- ─── Scroll-trigger JS ─── -->
+<script>
+    const section = document.getElementById('splootrx-section');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('rx-active');
+            }
+        });
+    }, { threshold: 0.12 });
+    io.observe(section);
+</script>
+
+<!-- ─── Hero slider JS ─── -->
+<script>
+(function() {
+    const slider = document.getElementById('rx-hero-slider');
+    const dotsContainer = document.getElementById('rx-slider-dots');
+    if (!slider || !dotsContainer) return;
+
+    const slides = slider.querySelectorAll('.rx-slide');
+    const dots = dotsContainer.querySelectorAll('button[data-dot]');
+    const total = slides.length;
+    const intervalMs = 4500;
+
+    let current = 0;
+    let timer = null;
+
+    function goToSlide(index) {
+        current = (index + total) % total;
+        slides.forEach((s, i) => s.classList.toggle('active', i === current));
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function next() {
+        goToSlide(current + 1);
+    }
+
+    function startTimer() {
+        stopTimer();
+        timer = setInterval(next, intervalMs);
+    }
+
+    function stopTimer() {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+        }
+    }
+
+    dots.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+            goToSlide(i);
+            startTimer();
+        });
+    });
+
+    slider.addEventListener('mouseenter', stopTimer);
+    slider.addEventListener('focusin', stopTimer);
+    slider.addEventListener('mouseleave', startTimer);
+    slider.addEventListener('focusout', startTimer);
+
+    startTimer();
+})();
+</script>
+
+</body>
+</html>
