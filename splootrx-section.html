@@ -583,7 +583,7 @@
         .mega-service-title {
             color: #1B4B4B;
             font-size: 0.8125rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.125rem;
             line-height: 1.2;
         }
@@ -693,14 +693,14 @@
 
 <!-- Mega menu header (Minto-style) -->
 <header class="mega-header">
-    <div class="max-w-6xl mx-auto px-6 grid grid-cols-3 lg:flex lg:items-center lg:justify-between h-16 md:h-18 items-center">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 flex items-center justify-between h-16 md:h-18">
         <!-- Book Now (Left on mobile, Right on desktop) -->
-        <div class="flex items-center justify-start lg:justify-end gap-3 order-1 lg:order-3">
-            <a href="https://www.splootvets.com/book" class="inline-flex items-center gap-2 bg-sploot-coral text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-semibold text-xs sm:text-sm hover:shadow-lg hover:shadow-sploot-coral/20 transition-all whitespace-nowrap">Book Now</a>
+        <div class="flex-1 lg:flex-none flex items-center justify-start lg:justify-end gap-3 order-1 lg:order-3">
+            <a href="https://www.splootvets.com/book" class="inline-flex items-center gap-2 bg-sploot-coral text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full font-semibold text-sm border-2 border-transparent hover:bg-white hover:text-sploot-coral hover:border-sploot-coral transition-all whitespace-nowrap mr-3 md:mr-4">Book Now</a>
         </div>
 
         <!-- Logo (Center on mobile, Left on desktop) -->
-        <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+        <div class="shrink-0 flex justify-center lg:justify-start order-2 lg:order-1">
             <a href="/" class="inline-flex items-center" aria-label="Sploot home">
                 <img src="./photos/logo.avif" alt="Sploot logo" class="h-8 md:h-9 w-auto">
             </a>
@@ -829,7 +829,7 @@
                                 <div class="mega-insight bg-sploot-coral/10">
                                     <p style="font-weight: 600;" class="mb-0">Not sure where to start?</p>
                                     <div class="mt-4 flex items-center justify-between gap-2">
-                                        <span class="mega-insight-cta-text">Speak with a medical professional</span>
+                                        <span class="mega-insight-cta-text">Talk to a veterinary professional</span>
                                         <span class="text-sploot-coral font-semibold text-[13px] bg-white/60 px-2 py-0.5 rounded border border-sploot-coral/20 whitespace-nowrap">(720) 740-8129</span>
                                     </div>
                                 </div>
@@ -845,9 +845,9 @@
                         <div class="mega-col">
                             <h4>Plans &amp; Pricing</h4>
                             <ul class="mega-locations-list">
-                                <li><a href="/membership" class="mega-location-item">Membership</a></li>
-                                <li><a href="/pricing" class="mega-location-item">Pricing</a></li>
-                                <li><a href="/financing" class="mega-location-item">Financing</a></li>
+                                <li><a href="/membership" class="mega-location-item">Membership Plans</a></li>
+                                <li><a href="/pricing" class="mega-location-item">Exam &amp; Visit Pricing</a></li>
+                                <li><a href="/financing" class="mega-location-item">Payment Plans</a></li>
                             </ul>
                         </div>
                         <div class="mega-col">
@@ -873,7 +873,7 @@
         </nav>
 
         <!-- Mobile Hamburger (Right on mobile, Hidden on desktop) -->
-        <div class="flex lg:hidden justify-end order-3">
+        <div class="flex-1 lg:hidden flex justify-end order-3">
             <button type="button" class="mega-mobile-toggle -mr-2" id="mega-mobile-btn" aria-label="Open menu">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
@@ -883,12 +883,12 @@
     <div class="mega-mobile-menu lg:hidden" id="mega-mobile-menu">
         <div class="flex flex-col py-4 divide-y divide-sploot-teal/10">
             <!-- Locations Dropdown -->
-            <details class="group py-3">
+            <details class="group py-5">
                 <summary class="flex items-center justify-between font-heading text-xl font-bold text-sploot-teal cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                     Locations
                     <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </summary>
-                <div class="pt-4 pb-2 flex flex-col gap-3">
+                <div class="pt-5 pb-3 flex flex-col gap-5">
                     <a href="/locations/denver" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Denver</a>
                     <a href="/locations/colorado-springs" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Colorado Springs</a>
                     <a href="/locations/chicago" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Chicago</a>
@@ -897,50 +897,50 @@
             </details>
 
             <!-- Services Dropdown -->
-            <details class="group py-3">
+            <details class="group py-5">
                 <summary class="flex items-center justify-between font-heading text-xl font-bold text-sploot-teal cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                     Services
                     <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </summary>
-                <div class="pt-4 pb-2 grid grid-cols-1 gap-1">
+                <div class="pt-5 pb-3 grid grid-cols-1 gap-3">
                     <a href="/services#urgent-care" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
                         <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <span class="text-sploot-teal font-medium text-sm">Urgent Care & Sick Visits</span>
+                        <span class="text-sploot-teal font-semibold text-sm">Urgent Care & Sick Visits</span>
                     </a>
                     <a href="/services#wellness" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
                         <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                         </div>
-                        <span class="text-sploot-teal font-medium text-sm">Wellness & Preventive</span>
+                        <span class="text-sploot-teal font-semibold text-sm">Wellness & Preventive</span>
                     </a>
                     <a href="/services#vaccinations" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
                         <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
                         </div>
-                        <span class="text-sploot-teal font-medium text-sm">Vaccinations</span>
-                    </a>
-                    <a href="/services#spay-neuter" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
-                        <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/></svg>
-                        </div>
-                        <span class="text-sploot-teal font-medium text-sm">Spay & Neuter</span>
+                        <span class="text-sploot-teal font-semibold text-sm">Vaccinations</span>
                     </a>
                     <a href="/services#dental" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
                         <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
-                        <span class="text-sploot-teal font-medium text-sm">Dental Care</span>
+                        <span class="text-sploot-teal font-semibold text-sm">Dental Care</span>
+                    </a>
+                    <a href="/services#spay-neuter" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
+                        <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/></svg>
+                        </div>
+                        <span class="text-sploot-teal font-semibold text-sm">Spay & Neuter</span>
                     </a>
                     <a href="/services#surgery" class="flex items-center gap-3 p-2 rounded-xl hover:bg-sploot-mint transition-colors group/item">
                         <div class="w-8 h-8 rounded-lg bg-sploot-cream flex items-center justify-center text-sploot-coral group-hover/item:bg-white transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                         </div>
-                        <span class="text-sploot-teal font-medium text-sm">Surgery</span>
+                        <span class="text-sploot-teal font-semibold text-sm">Surgery</span>
                     </a>
                     <div class="h-px bg-sploot-teal/10 my-2 mx-2"></div>
-                    <a href="/services" class="inline-flex items-center text-sploot-teal font-medium text-sm p-2 group/item hover:text-sploot-coral transition-colors">
+                    <a href="/services" class="inline-flex items-center text-sploot-teal font-semibold text-sm p-2 group/item hover:text-sploot-coral transition-colors">
                         See All Services
                         <svg class="w-4 h-4 ml-1 transition-transform duration-200 group-hover/item:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
@@ -948,30 +948,30 @@
             </details>
 
             <!-- Pricing Dropdown -->
-            <details class="group py-3">
+            <details class="group py-5">
                 <summary class="flex items-center justify-between font-heading text-xl font-bold text-sploot-teal cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                    Pricing
+                    Plans &amp; Pricing
                     <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </summary>
-                <div class="pt-4 pb-2 flex flex-col gap-3">
-                    <a href="/membership" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Membership</a>
-                    <a href="/pricing" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Pricing</a>
-                    <a href="/financing" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Financing</a>
+                <div class="pt-5 pb-3 flex flex-col gap-5">
+                    <a href="/membership" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Membership Plans</a>
+                    <a href="/pricing" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Exam &amp; Visit Pricing</a>
+                    <a href="/financing" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Payment Plans</a>
                 </div>
             </details>
 
             <!-- Pharmacy -->
-            <a href="/splootrx" class="font-heading text-xl font-bold text-sploot-teal py-4 block hover:text-sploot-coral transition-colors">Pharmacy</a>
+            <a href="/splootrx" class="font-heading text-xl font-bold text-sploot-teal py-5 block hover:text-sploot-coral transition-colors">Pharmacy</a>
 
             <!-- Careers -->
-            <a href="/careers" class="font-heading text-xl font-bold text-sploot-teal py-4 block hover:text-sploot-coral transition-colors">Careers</a>
+            <a href="/careers" class="font-heading text-xl font-bold text-sploot-teal py-5 block hover:text-sploot-coral transition-colors">Careers</a>
         </div>
 
         <!-- Call Now Section -->
-        <div class="mt-4 mb-8 bg-sploot-mint rounded-2xl p-6 text-center border border-sploot-teal/10 shadow-sm">
-            <h4 class="font-heading text-2xl font-bold text-sploot-teal mb-1">Need Help Now?</h4>
-            <p class="text-sm text-sploot-teal/70 mb-5">Speak with a medical professional</p>
-            <a href="tel:+17207408129" class="inline-flex items-center justify-center w-full py-3.5 px-4 border-2 border-sploot-teal text-sploot-teal font-bold rounded-full hover:bg-sploot-teal hover:text-white transition-colors text-lg">
+        <div class="mt-4 mb-8 bg-sploot-mint rounded-2xl p-4 text-center border border-sploot-teal/10 shadow-sm">
+            <h4 class="font-heading text-xl font-bold text-sploot-teal mb-1">Need Help Now?</h4>
+            <p class="text-sm text-sploot-teal/70 mb-3">Talk to a veterinary professional</p>
+            <a href="tel:+17207408129" class="inline-flex items-center justify-center w-full py-2.5 px-4 border-2 border-sploot-teal text-sploot-teal font-bold rounded-full hover:bg-sploot-teal hover:text-white transition-colors text-base">
                 (720) 740-8129
             </a>
         </div>
