@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/splootrx-section.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/about", "destination": "/about-us.html" },
+    { "source": "/splootrx", "destination": "/splootrx-section.html" },
+    { "source": "/playground", "destination": "/splootrx-section.html" },
+    { "source": "/membership", "destination": "/membership-pricing.html" }
   ]
 }
