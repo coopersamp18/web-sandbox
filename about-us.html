@@ -47,6 +47,30 @@
         .font-heading.font-bold { font-weight: 500; }
         html { scroll-behavior: smooth; }
 
+        /*
+         * Stacking: .about-hero-scope (z-index:10) holds fixed video + a transparent spacer + the
+         * teal sheet in normal flow. #about-problem stays z-index:11 for its sticky manifesto.
+         * #plan-section (z-index:15) wraps the stats strip + plan cards so it paints above hero/problem.
+         */
+        main {
+            position: relative;
+            z-index: 0;
+        }
+
+        /*
+         * Header sits in normal flow above <main>. Sections that use 100vh/100dvh for “one screen”
+         * must subtract this or they become header + 100vh tall and cause a few dozen px of extra scroll.
+         * Matches inner bar: Tailwind h-16 (4rem) / md:h-18 (4.5rem).
+         */
+        :root {
+            --mega-header-height: 4rem;
+        }
+        @media (min-width: 768px) {
+            :root {
+                --mega-header-height: 4.5rem;
+            }
+        }
+
         /* ─── Mega menu / header ─── */
         .mega-header {
             position: sticky;
@@ -442,168 +466,446 @@
         .about-reveal[data-delay="3"] { transition-delay: 0.36s; }
         .about-reveal[data-delay="4"] { transition-delay: 0.48s; }
 
-        /* Section 1: Hero */
-        .about-hero {
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* Section 1: Hero — fixed media + transparent viewport-height spacer, then sheet in normal flow */
+        .about-hero-scope {
             position: relative;
-            overflow: hidden;
+            z-index: 10;
         }
-        .about-hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
+        /* Full “screen” of video visible while this block scrolls through like normal content */
+        .about-hero-intro-spacer {
+            position: relative;
+            z-index: 2;
+            /* One viewport minus header, minus the same “peek” band the old pull-up sheet showed */
+            min-height: calc(100vh - var(--mega-header-height) - min(6.25rem, 18svh));
+            min-height: calc(100dvh - var(--mega-header-height) - min(6.25rem, 18svh));
+            pointer-events: none;
+            background: transparent;
         }
-        .about-hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(27,75,75,0.88) 0%, rgba(27,75,75,0.78) 40%, rgba(27,75,75,0.55) 100%);
-            z-index: 1;
-        }
-        @media (max-width: 767px) {
-            .about-hero-overlay {
-                background: linear-gradient(to top, rgba(27,75,75,0.92) 0%, rgba(27,75,75,0.78) 50%, rgba(27,75,75,0.6) 100%);
+        @media (min-width: 768px) {
+            .about-hero-intro-spacer {
+                min-height: calc(100vh - var(--mega-header-height) - min(6rem, 16svh));
+                min-height: calc(100dvh - var(--mega-header-height) - min(6rem, 16svh));
             }
         }
-        .about-hero-content { position: relative; z-index: 2; }
-        .about-scroll-cue {
+        /* Video + poster: fixed to viewport; does not scroll with the page (only hidden when hero leaves view). */
+        .about-hero-photo {
+            position: fixed;
+            top: var(--mega-header-height);
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: calc(100vh - var(--mega-header-height));
+            height: calc(100dvh - var(--mega-header-height));
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .about-hero-photo.about-hero-media--off,
+        .about-hero-play-wrap.about-hero-media--off {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .about-hero-video {
             position: absolute;
-            bottom: 2rem;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            width: 100vw;
+            height: 56.25vw; /* 16:9 */
+            /* Cover the hero frame (same as sticky height: viewport minus header). */
+            min-width: calc((100vh - var(--mega-header-height)) * 16 / 9);
+            min-height: calc(100vh - var(--mega-header-height));
+            min-width: calc((100dvh - var(--mega-header-height)) * 16 / 9);
+            min-height: calc(100dvh - var(--mega-header-height));
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        #hero-yt-player,
+        .about-hero-video iframe {
+            position: absolute;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+            border: 0;
+        }
+        .about-hero-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .about-hero-video {
+                display: none;
+            }
+            .about-hero-play-wrap {
+                display: none;
+            }
+        }
+        /* Fixed above hero media (z-index:1), below sheet (z-index:3) so .about-hero-sheet-inner paints on top where they overlap */
+        .about-hero-play-wrap {
+            position: fixed;
+            top: var(--mega-header-height);
+            left: 0;
+            right: 0;
+            height: calc(100vh - var(--mega-header-height));
+            height: calc(100dvh - var(--mega-header-height));
             z-index: 2;
-            animation: about-bounce 2.5s ease-in-out infinite;
+            pointer-events: none;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 0.85rem 1rem 0;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
         }
-        @keyframes about-bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.3; }
-            50% { transform: translateX(-50%) translateY(10px); opacity: 0.6; }
+        @media (min-width: 768px) {
+            .about-hero-play-wrap {
+                padding: 1rem 1.5rem 0;
+            }
+            .about-hero-play-btn {
+                gap: 0.45rem;
+                padding: 0.55rem 0.9rem 0.55rem 0.75rem;
+            }
+            .about-hero-play-btn-text {
+                display: inline;
+            }
         }
-
-        /* Section 2: Problem – sticky scroll manifesto (desktop) */
+        .about-hero-play-btn {
+            pointer-events: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.65rem;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.92);
+            font-family: Outfit, system-ui, sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            -webkit-backdrop-filter: blur(14px) saturate(1.35);
+            backdrop-filter: blur(14px) saturate(1.35);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .about-hero-play-btn-text {
+            display: none;
+        }
+        .about-hero-play-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.32);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+        }
+        .about-hero-play-btn:focus-visible {
+            outline: 2px solid #E07A6A;
+            outline-offset: 3px;
+        }
+        .about-hero-play-btn svg {
+            flex-shrink: 0;
+            width: 1.3rem;
+            height: 1.3rem;
+            color: #f0b5a8;
+        }
+        .about-hero-video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            padding-top: max(1rem, env(safe-area-inset-top, 0px));
+            background: rgba(27, 75, 75, 0.82);
+            backdrop-filter: blur(8px);
+        }
+        .about-hero-video-modal[hidden] {
+            display: none;
+        }
+        .about-hero-video-modal__panel {
+            position: relative;
+            width: 100%;
+            max-width: min(56rem, 100vw - 2rem);
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #0a1a1a;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+        }
+        @media (min-width: 768px) {
+            .about-hero-video-modal__panel {
+                border-radius: 1.25rem;
+            }
+        }
+        .about-hero-video-modal__chrome {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.65rem 0.75rem;
+            background: #1B4B4B;
+        }
+        .about-hero-video-modal__title {
+            margin: 0;
+            font-family: Outfit, system-ui, sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .about-hero-video-modal__close {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            padding: 0;
+            border: 0;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .about-hero-video-modal__close:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+        .about-hero-video-modal__close:focus-visible {
+            outline: 2px solid #E07A6A;
+            outline-offset: 2px;
+        }
+        .about-hero-video-modal__frame-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .about-hero-video-modal__frame-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .about-hero-sheet {
+            position: relative;
+            z-index: 3;
+            min-height: 0;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+            border-radius: 1.75rem 1.75rem 0 0;
+            box-shadow: 0 -16px 48px rgba(27, 75, 75, 0.35);
+        }
+        @media (min-width: 768px) {
+            .about-hero-sheet {
+                border-radius: 2.25rem 2.25rem 0 0;
+            }
+        }
+        .about-hero-sheet-handle {
+            flex-shrink: 0;
+        }
+        .about-hero-sheet-inner {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 0;
+        }
+        /* Section 2: Problem – scattered quotes scroll */
+        #about-problem {
+            position: relative;
+            z-index: 11;
+        }
+        /* Stats strip lives inside #plan-section; section uses z-15 so it paints above hero/problem subtrees */
+        #proof-strip {
+            position: relative;
+        }
         .problem-scroll-outer { position: relative; }
         @media (min-width: 768px) {
-            /* Taller = more scroll per line, slower handoff between manifesto beats */
-            .problem-scroll-outer { height: 520vh; }
+            /*
+             * Scroll distance for the quote → tagline animation (was 500vh; too much “dead” cream
+             * after the motion reads finished). ~340vh keeps the same JS phases (p: 0–1) but
+             * shortens total track so the next sections feel connected.
+             */
+            .problem-scroll-outer { height: 340vh; }
+            .section-guide-overlap {
+                margin-top: calc(-100vh + var(--mega-header-height));
+                margin-top: calc(-100dvh + var(--mega-header-height));
+            }
         }
         .problem-scroll-sticky {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-        @media (min-width: 768px) {
-            .problem-scroll-sticky { position: sticky; top: 0; }
-        }
-        .problem-line-wrap {
-            position: relative;
-            width: 100%;
-            min-height: 8rem;
-        }
-        @media (min-width: 768px) {
-            .problem-line-wrap { min-height: 10rem; }
-        }
-        .problem-line-item {
-            padding: 1.5rem;
-        }
-        @media (min-width: 768px) {
-            .problem-line-item {
-                position: absolute;
-                inset: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                opacity: 0;
-                will-change: transform, opacity;
-            }
-        }
-        /* Mobile: stagger all lines */
-        @media (max-width: 767px) {
-            .problem-line-item {
-                opacity: 0;
-                transform: translateY(36px);
-                transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                            transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .problem-mobile-active .problem-line-item { opacity: 1; transform: translateY(0); }
-            .problem-mobile-active .problem-line-item:nth-child(1) { transition-delay: 0s; }
-            .problem-mobile-active .problem-line-item:nth-child(2) { transition-delay: 0.38s; }
-            .problem-mobile-active .problem-line-item:nth-child(3) { transition-delay: 0.76s; }
-            .problem-mobile-active .problem-line-item:nth-child(4) { transition-delay: 1.14s; }
-        }
-        /* Scroll-progress bar at bottom */
-        .problem-progress {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 3px;
-            background: rgba(27,75,75,0.08);
-            border-radius: 2px;
+            min-height: calc(100vh - var(--mega-header-height));
+            min-height: calc(100dvh - var(--mega-header-height));
             overflow: hidden;
         }
-        .problem-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #E07A6A;
-            border-radius: 2px;
-            transition: width 0.15s linear;
+        @media (min-width: 768px) {
+            .problem-scroll-sticky {
+                position: sticky;
+                top: var(--mega-header-height);
+            }
         }
+        .problem-quotes-field {
+            position: absolute;
+            inset: 0;
+        }
+        .problem-quote {
+            position: absolute;
+            left: var(--qx);
+            top: var(--qy);
+            transform: rotate(var(--qr, 0deg)) translateY(24px);
+            opacity: 0;
+            font-family: var(--font-heading, 'New Spirit', serif);
+            font-weight: 700;
+            font-size: clamp(1rem, 2.2vw, 1.55rem);
+            color: rgba(27,75,75,0.45);
+            white-space: nowrap;
+            pointer-events: none;
+            will-change: opacity, transform;
+        }
+        .problem-tagline {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.45);
+            will-change: opacity, transform;
+            pointer-events: none;
+            max-width: 48rem;
+            padding: 0 1.5rem;
+        }
+        /* Mobile: no sticky scroll, simple reveal */
         @media (max-width: 767px) {
-            .problem-progress { display: none; }
+            .problem-scroll-outer { height: auto; }
+            .problem-scroll-sticky {
+                flex-direction: column;
+                gap: 0;
+                padding: 4rem 1.5rem;
+            }
+            .problem-quotes-field {
+                position: relative;
+                inset: auto;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.75rem 1.25rem;
+                margin-bottom: 3rem;
+            }
+            .problem-quote {
+                position: relative;
+                left: auto;
+                top: auto;
+                transform: none;
+                opacity: 0;
+                white-space: normal;
+                text-align: center;
+                font-size: 0.95rem;
+                transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+            .problem-mobile-active .problem-quote {
+                opacity: 1;
+                transform: translateY(0) rotate(var(--qr, 0deg));
+            }
+            .problem-mobile-active .problem-quote[data-q="0"] { transition-delay: 0s; }
+            .problem-mobile-active .problem-quote[data-q="1"] { transition-delay: 0.1s; }
+            .problem-mobile-active .problem-quote[data-q="2"] { transition-delay: 0.2s; }
+            .problem-mobile-active .problem-quote[data-q="3"] { transition-delay: 0.3s; }
+            .problem-mobile-active .problem-quote[data-q="4"] { transition-delay: 0.4s; }
+            .problem-mobile-active .problem-quote[data-q="5"] { transition-delay: 0.5s; }
+            .problem-mobile-active .problem-quote[data-q="6"] { transition-delay: 0.6s; }
+            .problem-mobile-active .problem-quote[data-q="7"] { transition-delay: 0.7s; }
+            .problem-mobile-active .problem-quote[data-q="8"] { transition-delay: 0.8s; }
+            .problem-tagline {
+                position: relative;
+                opacity: 1;
+                transform: scale(1);
+            }
+            .problem-tagline span {
+                opacity: 0;
+                transform: scale(0.8);
+                transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .problem-mobile-active #tagline-line1 {
+                opacity: 1;
+                transform: scale(1);
+                transition-delay: 1.1s;
+            }
+            .problem-mobile-active #tagline-line2 {
+                opacity: 1;
+                transform: scale(1);
+                transition-delay: 1.6s;
+            }
         }
 
         /* Section 4: Proof strip */
         .proof-stat-number { font-size: 3rem; line-height: 1; }
         @media (min-width: 768px) { .proof-stat-number { font-size: 3.5rem; } }
 
-        /* Section 5: Stacking Card Journey */
+        /* Section 5: Stacking Card Journey
+         * Headline sits beside the card stack (md+) so nothing is full-width sticky over the next section.
+         * Cards stick just below the header bar — not below a second sticky headline. */
+        #plan-section {
+            position: relative;
+            z-index: 15;
+            isolation: isolate;
+            --plan-card-sticky-top: calc(var(--mega-header-height) + 1rem);
+        }
         .plan-stack-container {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            padding-bottom: 3rem;
+            gap: 0;
+            padding-bottom: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
         }
         @media (min-width: 768px) {
             .plan-stack-container {
-                gap: 0;
-                padding-bottom: 0;
-                max-width: 600px;
-                margin: 0 auto;
-            }
-            .plan-card {
-                position: sticky;
-                top: 12vh;
-                margin-bottom: 50px;
-                will-change: transform;
-                transform-origin: center top;
-            }
-            .plan-card:last-child {
-                margin-bottom: 20vh;
-            }
-            .plan-card-inner {
-                position: relative;
-                isolation: isolate;
-                box-shadow: 0 8px 40px rgba(27,75,75,0.08);
-            }
-            .plan-card-inner::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                background: white;
-                border-radius: inherit;
-                z-index: -1;
+                margin-left: 0;
+                margin-right: 0;
+                max-width: none;
             }
         }
+        .plan-card {
+            position: sticky;
+            top: var(--plan-card-sticky-top);
+            margin-bottom: 40px;
+            will-change: transform;
+            transform-origin: center top;
+        }
+        .plan-card:last-child {
+            margin-bottom: 20vh;
+        }
         .plan-card-inner {
+            position: relative;
+            isolation: isolate;
+            box-shadow: 0 8px 40px rgba(27,75,75,0.08);
             max-width: 600px;
             width: 100%;
+            margin-left: auto;
+            margin-right: auto;
             transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s ease;
+        }
+        .plan-card-inner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: white;
+            border-radius: inherit;
+            z-index: -1;
+        }
+        @media (min-width: 768px) {
+            .plan-card {
+                margin-bottom: 50px;
+            }
         }
 
         /* Section 6: Map pins */
@@ -1006,67 +1308,112 @@
         </div>
     </div>
 </header>
+<script>
+(function () {
+    function syncMegaHeaderHeight() {
+        var el = document.querySelector('.mega-header');
+        if (!el) return;
+        document.documentElement.style.setProperty('--mega-header-height', el.offsetHeight + 'px');
+    }
+    syncMegaHeaderHeight();
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncMegaHeaderHeight);
+    }
+    window.addEventListener('resize', syncMegaHeaderHeight);
+    if (typeof ResizeObserver !== 'undefined') {
+        var el = document.querySelector('.mega-header');
+        if (el) new ResizeObserver(syncMegaHeaderHeight).observe(el);
+    }
+})();
+</script>
 
 <main>
 
-<!-- ═══ Section 1: Hero — Empathy Hook ═══ -->
-<section class="about-hero bg-sploot-teal">
-    <div class="about-hero-bg">
-        <img src="./photos/Commons Park Sploot 29 (1).webp" alt="Sploot Veterinary Care clinic" class="w-full h-full object-cover">
+<!-- ═══ Section 1: Hero — fixed media, transparent spacer, sheet in document flow ═══ -->
+<section class="about-hero-scope" id="about-hero-scope" aria-label="Introduction">
+    <div class="about-hero-photo" aria-hidden="true">
+        <div class="about-hero-video" id="hero-video-wrap">
+            <div id="hero-yt-player"></div>
+        </div>
+        <img src="./photos/Commons Park Sploot 29 (1).webp" alt="" decoding="async" fetchpriority="high">
     </div>
-    <div class="about-hero-overlay"></div>
-    <div class="about-hero-content max-w-5xl mx-auto px-6 md:px-8 py-32">
-        <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] max-w-2xl">
-            A modern approach to vet care.
-        </h1>
-        <p class="mt-6 text-white/60 text-lg md:text-xl max-w-lg leading-relaxed">
-            A network of local clinics, shared records, and doctors who love what they do.
-        </p>
-        <a href="#about-problem" class="mt-10 inline-flex items-center gap-2 text-white/40 text-sm font-medium hover:text-white/70 transition-colors">
-            See what makes us different
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-        </a>
+    <div class="about-hero-intro-spacer" aria-hidden="true"></div>
+    <div class="about-hero-play-wrap">
+        <button type="button" class="about-hero-play-btn" id="hero-video-open-btn" aria-haspopup="dialog" aria-controls="hero-video-modal" data-youtube-id="lQIn4GXLrtI">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7L8 5z"/></svg>
+            <span class="about-hero-play-btn-text">Watch with sound</span>
+        </button>
     </div>
-    <div class="about-scroll-cue">
-        <svg class="w-6 h-6 text-white/25" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    <div class="about-hero-sheet flex flex-col bg-sploot-teal" id="about-hero-sheet">
+        <div class="about-hero-sheet-handle flex justify-center pt-2.5 pb-1.5 md:pt-3 md:pb-2" aria-hidden="true">
+            <span class="w-11 h-1.5 rounded-full bg-white/20"></span>
+        </div>
+        <div class="about-hero-sheet-inner max-w-5xl mx-auto w-full px-6 md:px-8 pb-6 md:pb-8 pt-1 md:pt-2">
+            <p class="text-white/35 text-xs font-semibold uppercase tracking-[0.28em] mb-4 md:mb-5">About Sploot</p>
+            <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] max-w-2xl">
+                A modern approach to vet care.
+            </h1>
+            <p class="mt-5 md:mt-6 text-white/55 text-lg md:text-xl max-w-lg leading-relaxed">
+                A network of local clinics, shared records, and doctors who love what they do.
+            </p>
+            <a href="#about-problem" class="mt-8 md:mt-10 inline-flex items-center gap-2 text-white/45 text-sm font-medium hover:text-sploot-coral transition-colors">
+                See what makes us different
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            </a>
+        </div>
     </div>
 </section>
+<script>
+(function () {
+    var scope = document.getElementById('about-hero-scope');
+    var media = document.querySelector('.about-hero-photo');
+    var playWrap = document.querySelector('.about-hero-play-wrap');
+    if (!scope || !media || typeof IntersectionObserver === 'undefined') return;
+    var io = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(function (e) {
+                var off = !e.isIntersecting;
+                media.classList.toggle('about-hero-media--off', off);
+                if (playWrap) playWrap.classList.toggle('about-hero-media--off', off);
+            });
+        },
+        { root: null, threshold: 0, rootMargin: '0px' }
+    );
+    io.observe(scope);
+})();
+</script>
 
-<!-- ═══ Section 2: The Problem — Sticky Scroll Manifesto ═══ -->
+<!-- ═══ Section 2: The Problem — Scattered Quotes ═══ -->
 <section id="about-problem" class="bg-sploot-cream">
     <div class="problem-scroll-outer" id="problem-section">
-        <div class="problem-scroll-sticky px-6 md:px-8">
-            <div class="max-w-3xl mx-auto text-center problem-line-wrap">
-                <div class="problem-line-item" data-line="0">
-                    <p class="font-heading text-2xl md:text-3xl lg:text-[2.75rem] font-bold text-sploot-teal/60 leading-snug">
-                        You shouldn't have to wait two weeks for an appointment.
-                    </p>
-                </div>
-                <div class="problem-line-item" data-line="1">
-                    <p class="font-heading text-2xl md:text-3xl lg:text-[2.75rem] font-bold text-sploot-teal/60 leading-snug">
-                        You shouldn't have to explain your pet's history at every new clinic.
-                    </p>
-                </div>
-                <div class="problem-line-item" data-line="2">
-                    <p class="font-heading text-2xl md:text-3xl lg:text-[2.75rem] font-bold text-sploot-teal/60 leading-snug">
-                        You shouldn't need a spreadsheet to manage your pet's care.
-                    </p>
-                </div>
-                <div class="problem-line-item" data-line="3">
-                    <p class="font-heading text-2xl md:text-3xl lg:text-[2.75rem] font-bold text-sploot-teal leading-snug">
-                        Vet care wasn't built for modern pet parents.<br class="hidden md:inline"> We're changing that.
-                    </p>
-                </div>
+        <div class="problem-scroll-sticky">
+            <div class="problem-quotes-field" id="problem-quotes-field">
+                <span class="problem-quote" data-q="0" style="--qx: 8%; --qy: 15%; --qr: -6deg;">&ldquo;You can't see me today?&rdquo;</span>
+                <span class="problem-quote" data-q="1" style="--qx: 62%; --qy: 8%; --qr: 4deg;">&ldquo;It costs HOW MUCH?!&rdquo;</span>
+                <span class="problem-quote" data-q="2" style="--qx: 58%; --qy: 42%; --qr: -3deg;">&ldquo;Where are my pet's records?&rdquo;</span>
+                <span class="problem-quote" data-q="3" style="--qx: 5%; --qy: 55%; --qr: 5deg;">&ldquo;When is Luna due again?&rdquo;</span>
+                <span class="problem-quote" data-q="4" style="--qx: 35%; --qy: 72%; --qr: -4deg;">&ldquo;Is this serious?&rdquo;</span>
+                <span class="problem-quote" data-q="5" style="--qx: 55%; --qy: 75%; --qr: 3deg;">&ldquo;I can't get ahold of anyone&rdquo;</span>
+                <span class="problem-quote" data-q="6" style="--qx: 38%; --qy: 30%; --qr: 2deg;">&ldquo;Another two-week wait?&rdquo;</span>
+                <span class="problem-quote" data-q="7" style="--qx: 72%; --qy: 58%; --qr: -5deg;">&ldquo;I need a specialist for that?&rdquo;</span>
+                <span class="problem-quote" data-q="8" style="--qx: 15%; --qy: 85%; --qr: 3deg;">&ldquo;It's $500 just to walk in the door?&rdquo;</span>
             </div>
-            <div class="problem-progress">
-                <div class="problem-progress-fill" id="problem-progress-fill"></div>
+            <div class="problem-tagline" id="problem-tagline">
+                <p class="font-heading font-bold text-sploot-teal leading-[1.02] text-center">
+                    <span id="tagline-line1" class="block text-lg sm:text-xl md:text-2xl lg:text-[2rem] text-sploot-teal/70 mb-3 md:mb-4" style="opacity:0; transform:scale(0.45);">
+                        Vet care wasn't built for modern pet parents.
+                    </span>
+                    <span id="tagline-line2" class="block text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem]" style="opacity:0; transform:scale(0.45);">
+                        We make it simpler.
+                    </span>
+                </p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- ═══ Section 3: The Guide — "Not Your Ordinary Vet" ═══ -->
-<section class="relative py-28 md:py-36 px-6 md:px-8 overflow-hidden">
+<section class="relative z-20 py-28 md:py-36 px-6 md:px-8 overflow-hidden bg-white section-guide-overlap">
     <img src="./photos/Sploot 311.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-15">
     <div class="absolute inset-0 bg-gradient-to-br from-sploot-mint/90 via-white/85 to-sploot-cream/90"></div>
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(224,122,106,0.08),transparent_60%)]"></div>
@@ -1074,12 +1421,12 @@
         <div class="about-reveal">
             <span class="inline-flex items-center gap-3 text-sploot-coral text-xs font-semibold uppercase tracking-[0.25em] mb-6">
                 <span class="w-8 h-px bg-sploot-coral"></span>
-                Not your ordinary vet
+                Here when you need us
                 <span class="w-8 h-px bg-sploot-coral"></span>
             </span>
         </div>
         <h2 class="about-reveal font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-sploot-teal leading-[1.1] mb-6" data-delay="1">
-            Modern vet care for modern life.
+            Exceptional care that actually fits your schedule.
         </h2>
         <p class="about-reveal text-lg md:text-xl text-sploot-teal/45 max-w-xl mx-auto leading-relaxed" data-delay="2">
             Primary care, urgent care, surgery, pharmacy &mdash; one team that knows your pet by name.
@@ -1087,36 +1434,40 @@
     </div>
 </section>
 
-<!-- ═══ Section 4: Proof Strip — The Numbers ═══ -->
-<section class="bg-sploot-teal py-14 md:py-16 px-6 md:px-8" id="proof-strip">
-    <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 text-center">
-        <div class="about-reveal">
-            <p class="proof-stat-number font-heading font-bold text-sploot-coral" data-count="365">0</p>
-            <p class="text-white/45 text-sm mt-2 font-medium">days open per year</p>
-        </div>
-        <div class="about-reveal" data-delay="1">
-            <p class="proof-stat-number font-heading font-bold text-white">Same-day</p>
-            <p class="text-white/45 text-sm mt-2 font-medium">appointments, always</p>
-        </div>
-        <div class="about-reveal" data-delay="2">
-            <p class="proof-stat-number font-heading font-bold text-sploot-coral" data-count="90" data-suffix="%">0</p>
-            <p class="text-white/45 text-sm mt-2 font-medium">of vet needs handled</p>
-        </div>
-        <div class="about-reveal" data-delay="3">
-            <p class="proof-stat-number font-heading font-bold text-white">3 cities</p>
-            <p class="text-white/45 text-sm mt-2 font-medium">and growing</p>
+<!-- ═══ Sections 4–5: Proof strip + Plan (one section — avoids gap / stacking glitches between siblings) ═══ -->
+<section class="bg-white" id="plan-section">
+    <div class="bg-sploot-teal pt-16 md:pt-20 pb-8 md:pb-10 px-6 md:px-8" id="proof-strip">
+        <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 text-center divide-x-0 md:divide-x divide-white/20">
+            <div class="about-reveal flex flex-col items-center justify-center">
+                <p class="proof-stat-number font-heading font-bold text-sploot-coral" data-count="365">0</p>
+                <p class="text-white/80 text-sm md:text-base mt-3 font-medium max-w-[160px]">days open per year</p>
+            </div>
+            <div class="about-reveal flex flex-col items-center justify-center" data-delay="1">
+                <p class="proof-stat-number font-heading font-bold text-white text-4xl md:text-5xl">Same-day</p>
+                <p class="text-white/80 text-sm md:text-base mt-3 font-medium max-w-[160px]">appointments, always</p>
+            </div>
+            <div class="about-reveal flex flex-col items-center justify-center" data-delay="2">
+                <p class="proof-stat-number font-heading font-bold text-sploot-coral" data-count="90" data-suffix="%">0</p>
+                <p class="text-white/80 text-sm md:text-base mt-3 font-medium max-w-[160px]">of vet needs handled</p>
+            </div>
+            <div class="about-reveal flex flex-col items-center justify-center" data-delay="3">
+                <p class="proof-stat-number font-heading font-bold text-white" data-count="3">0</p>
+                <p class="text-white/80 text-sm md:text-base mt-3 font-medium max-w-[160px]">cities and growing</p>
+            </div>
         </div>
     </div>
-</section>
-
-<!-- ═══ Section 5: The Plan — Stacking Card Journey ═══ -->
-<section class="bg-white pt-20 md:pt-28" id="plan-section">
-    <div class="text-center pb-10 md:pb-16 px-6 md:px-8">
-        <h2 class="about-reveal font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-sploot-teal leading-[1.1]">
-            Here's what having a real vet partner looks like.
-        </h2>
-    </div>
-    <div class="plan-stack-container px-6 md:px-8" id="plan-track">
+    <div class="max-w-6xl mx-auto px-6 md:px-8 pt-6 md:pt-8 pb-4 md:pb-8">
+        <!-- items-stretch (default) so the left column is as tall as the card stack — required for sticky headline -->
+        <div class="md:grid md:grid-cols-12 md:gap-10 lg:gap-14 md:items-stretch">
+            <div class="md:col-span-5 lg:col-span-4 mb-10 md:mb-0">
+                <div class="text-center md:text-left md:sticky md:top-[calc(var(--mega-header-height)+1.5rem)]">
+                    <h2 class="about-reveal visible font-heading text-3xl sm:text-4xl md:text-[2.25rem] lg:text-5xl font-bold text-sploot-teal leading-[1.1]">
+                        Here's what having a real vet partner looks like.
+                    </h2>
+                </div>
+            </div>
+            <div class="md:col-span-7 lg:col-span-8">
+                <div class="plan-stack-container pt-6 md:pt-0" id="plan-track">
         <div class="plan-card" style="z-index:1">
             <div class="plan-card-inner bg-sploot-cream/60 rounded-3xl p-8 md:p-12">
                 <div class="w-16 h-16 rounded-2xl bg-sploot-coral/10 flex items-center justify-center mb-6">
@@ -1124,7 +1475,7 @@
                 </div>
                 <h3 class="font-heading text-2xl md:text-3xl font-bold text-sploot-teal mb-3">Book in seconds</h3>
                 <p class="text-sploot-teal/45 text-base md:text-lg leading-relaxed max-w-sm">
-                    Pick a time, pick a clinic. Done. Book online, through the app, or call our dedicated care team.
+                    Book online, via the app, or by calling our care team.
                 </p>
             </div>
         </div>
@@ -1133,9 +1484,9 @@
                 <div class="w-16 h-16 rounded-2xl bg-sploot-teal/10 flex items-center justify-center mb-6">
                     <span class="font-heading font-bold text-sploot-teal text-3xl">2</span>
                 </div>
-                <h3 class="font-heading text-2xl md:text-3xl font-bold text-sploot-teal mb-3">Walk into a place that feels different</h3>
+                <h3 class="font-heading text-2xl md:text-3xl font-bold text-sploot-teal mb-3">Feel right at home</h3>
                 <p class="text-sploot-teal/45 text-base md:text-lg leading-relaxed max-w-sm">
-                    Modern, welcoming, and Fear Free certified &mdash; designed for your comfort and your pet's calm.
+                    Modern, welcoming, and Fear Free certified &mdash; designed for you and your pet's comfort.
                 </p>
             </div>
         </div>
@@ -1144,9 +1495,9 @@
                 <div class="w-16 h-16 rounded-2xl bg-sploot-coral/10 flex items-center justify-center mb-6">
                     <span class="font-heading font-bold text-sploot-coral text-3xl">3</span>
                 </div>
-                <h3 class="font-heading text-2xl md:text-3xl font-bold text-sploot-teal mb-3">Get everything handled</h3>
+                <h3 class="font-heading text-2xl md:text-3xl font-bold text-sploot-teal mb-3">Receive complete care</h3>
                 <p class="text-sploot-teal/45 text-base md:text-lg leading-relaxed max-w-sm">
-                    Routine checkups, urgent visits, surgery, dental &mdash; your whole care team is here under one roof.
+                    Routine checkups, urgent visits, surgery, dental &mdash; all under one "woof".
                 </p>
             </div>
         </div>
@@ -1159,6 +1510,9 @@
                 <p class="text-sploot-teal/45 text-base md:text-lg leading-relaxed max-w-sm">
                     Refill meds, message your vet, get vaccine reminders &mdash; all from your phone. Your pharmacy, in your pocket.
                 </p>
+            </div>
+        </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1585,6 +1939,72 @@
 
 </main>
 
+<div id="hero-video-modal" class="about-hero-video-modal" hidden role="dialog" aria-modal="true" aria-labelledby="hero-video-modal-title" aria-hidden="true">
+    <div class="about-hero-video-modal__panel" role="document">
+        <div class="about-hero-video-modal__chrome">
+            <p class="about-hero-video-modal__title" id="hero-video-modal-title">Sploot video</p>
+            <button type="button" class="about-hero-video-modal__close" id="hero-video-modal-close" aria-label="Close video">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="about-hero-video-modal__frame-wrap">
+            <iframe id="hero-video-modal-iframe" title="Sploot — video with sound" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    var openBtn = document.getElementById('hero-video-open-btn');
+    var modal = document.getElementById('hero-video-modal');
+    var closeBtn = document.getElementById('hero-video-modal-close');
+    var iframe = document.getElementById('hero-video-modal-iframe');
+    if (!openBtn || !modal || !closeBtn || !iframe) return;
+
+    var videoId = openBtn.getAttribute('data-youtube-id') || 'lQIn4GXLrtI';
+    var lastFocus = null;
+
+    function openModal() {
+        lastFocus = document.activeElement;
+        var bg = window.splootHeroYtPlayer;
+        if (bg && typeof bg.pauseVideo === 'function') bg.pauseVideo();
+        iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(videoId) +
+            '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+        modal.removeAttribute('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+        document.documentElement.style.overflow = 'hidden';
+        closeBtn.focus();
+    }
+
+    function closeModal() {
+        iframe.src = '';
+        modal.setAttribute('hidden', '');
+        modal.setAttribute('aria-hidden', 'true');
+        document.documentElement.style.overflow = '';
+        var bg = window.splootHeroYtPlayer;
+        if (bg && typeof bg.playVideo === 'function') bg.playVideo();
+        if (lastFocus && typeof lastFocus.focus === 'function') {
+            lastFocus.focus();
+        }
+    }
+
+    openBtn.addEventListener('click', function () {
+        openModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
+            closeModal();
+        }
+    });
+})();
+</script>
+
 <!-- ═══ Footer ═══ -->
 <footer class="bg-sploot-teal text-white pt-16 pb-8 px-6 md:px-8">
     <div class="max-w-6xl mx-auto">
@@ -1704,83 +2124,66 @@
 })();
 </script>
 
-<!-- ─── Section 2: Sticky scroll manifesto ─── -->
+<!-- ─── Section 2: Scattered quotes scroll ─── -->
 <script>
 (function() {
     var outer = document.getElementById('problem-section');
     if (!outer) return;
-    var lines = outer.querySelectorAll('.problem-line-item');
-    var fill = document.getElementById('problem-progress-fill');
+    var quotes = outer.querySelectorAll('.problem-quote');
+    var tagline = document.getElementById('problem-tagline');
+    var tagL1 = document.getElementById('tagline-line1');
+    var tagL2 = document.getElementById('tagline-line2');
     var isDesktop = window.matchMedia('(min-width: 768px)');
     var ticking = false;
-    var count = lines.length;
-    /* Larger = longer pause on each sentence before the next crossfade starts */
-    var SEGMENT_HOLD_FRAC = 0.78;
+    var qCount = quotes.length;
 
-    /**
-     * Map raw scroll progress [0,1] to focusPoint [0, count-1].
-     * Each inter-line segment spends most of its scroll "holding" on one line,
-     * then only the tail crossfades to the next — adds clear timing between sentences.
+    /*
+     * Scroll phases (desktop, .problem-scroll-outer height sets total track; p = progress 0–1):
+     *   0.00 – 0.28  quotes stagger in
+     *   0.28 – 0.42  hold quotes visible
+     *   0.42 – 0.58  quotes fade out
+     *   0.56 – 0.68  "Vet care wasn't built..." scales up
+     *   0.66 – 0.78  "We make it simpler." scales up
+     *   0.78 – 1.00  hold tagline
      */
-    function progressToFocusPoint(p) {
-        var n = count - 1;
-        if (n <= 0) return 0;
-        p = Math.max(0, Math.min(1, p));
-        if (p >= 1) return n;
-        var segFloat = p * n;
-        var segIndex = Math.min(n - 1, Math.floor(segFloat));
-        var localT = segFloat - segIndex;
-        var hold = SEGMENT_HOLD_FRAC;
-        if (localT < hold) return segIndex;
-        var blend = (localT - hold) / (1 - hold);
-        return segIndex + blend;
-    }
 
-    function applyScrollStyles() {
+    function ease(t) { return t * t * (3 - 2 * t); }
+
+    function applyScroll() {
         var rect = outer.getBoundingClientRect();
         var outerH = outer.offsetHeight;
         var scrolled = -rect.top;
-        var progress = Math.max(0, Math.min(1, scrolled / (outerH - window.innerHeight)));
-        var focusPoint = progressToFocusPoint(progress);
+        var p = Math.max(0, Math.min(1, scrolled / (outerH - window.innerHeight)));
 
-        /* Only crossfade between adjacent lines — avoids two lines both strong at once */
-        var yTravel = 112;
-        var fp = focusPoint;
-        var lo = Math.max(0, Math.min(count - 1, Math.floor(fp)));
-        var hi = Math.max(0, Math.min(count - 1, Math.ceil(fp)));
+        /* --- Quotes phase --- */
+        var quoteIn  = Math.max(0, Math.min(1, p / 0.28));
+        var quoteOut = (p > 0.42) ? Math.max(0, Math.min(1, (p - 0.42) / 0.16)) : 0;
 
-        lines.forEach(function(line, i) {
-            var distance = i - fp;
-            var isLast = (i === count - 1);
-            var opacity, ty, s;
-
-            if (lo === hi) {
-                opacity = (i === lo) ? 1 : 0;
-            } else {
-                var t = fp - lo;
-                /* Skewed: outgoing line stays dominant until late, then incoming takes over */
-                var hiAmt = Math.pow(t, 6);
-                var loAmt = 1 - hiAmt;
-                if (i === lo) opacity = loAmt;
-                else if (i === hi) opacity = hiAmt;
-                else opacity = 0;
-            }
-
-            if (isLast) {
-                ty = Math.max(0, distance) * yTravel;
-                var st = Math.max(0, Math.min(1, 1 - distance));
-                s = 0.5 + 0.5 * (st * st * (3 - 2 * st));
-            } else {
-                ty = distance * yTravel;
-                s = 1;
-            }
-
-            line.style.opacity = opacity;
-            line.style.transform = 'translateY(' + ty + 'px) scale(' + s + ')';
-            line.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
+        quotes.forEach(function(q, i) {
+            var staggerDelay = i / qCount;
+            var localIn = Math.max(0, Math.min(1, (quoteIn - staggerDelay * 0.6) / 0.4));
+            localIn = ease(localIn);
+            var oIn = localIn;
+            var oOut = 1 - ease(quoteOut);
+            var opacity = Math.min(oIn, oOut);
+            var yShift = (1 - localIn) * 24;
+            var rot = getComputedStyle(q).getPropertyValue('--qr') || '0deg';
+            q.style.opacity = opacity;
+            q.style.transform = 'rotate(' + rot.trim() + ') translateY(' + yShift + 'px)';
         });
 
-        if (fill) fill.style.width = (progress * 100) + '%';
+        /* --- Tagline phase (staggered two lines) --- */
+        var t1 = (p > 0.56) ? Math.max(0, Math.min(1, (p - 0.56) / 0.12)) : 0;
+        t1 = ease(t1);
+        var t2 = (p > 0.66) ? Math.max(0, Math.min(1, (p - 0.66) / 0.12)) : 0;
+        t2 = ease(t2);
+
+        tagline.style.opacity = 1;
+        tagline.style.transform = 'scale(1)';
+        tagL1.style.opacity = t1;
+        tagL1.style.transform = 'scale(' + (0.45 + 0.55 * t1) + ')';
+        tagL2.style.opacity = t2;
+        tagL2.style.transform = 'scale(' + (0.45 + 0.55 * t2) + ')';
     }
 
     function onScroll() {
@@ -1789,25 +2192,27 @@
         ticking = true;
         requestAnimationFrame(function() {
             ticking = false;
-            applyScrollStyles();
+            applyScroll();
         });
     }
 
     function setupMobile() {
         if (isDesktop.matches) return;
-        var wrap = outer.querySelector('.problem-line-wrap');
-        if (!wrap) return;
+        var field = outer.querySelector('.problem-quotes-field');
+        if (!field) return;
         var io = new IntersectionObserver(function(entries) {
             entries.forEach(function(e) {
-                if (e.isIntersecting) wrap.classList.add('problem-mobile-active');
+                if (e.isIntersecting) {
+                    outer.classList.add('problem-mobile-active');
+                }
             });
-        }, { threshold: 0.2 });
-        io.observe(wrap);
+        }, { threshold: 0.15 });
+        io.observe(field);
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     setupMobile();
-    if (isDesktop.matches) applyScrollStyles();
+    if (isDesktop.matches) applyScroll();
 })();
 </script>
 
@@ -1846,18 +2251,18 @@
     if (!track) return;
     var cards = track.querySelectorAll('.plan-card');
     if (!cards.length) return;
-    var isDesktop = window.matchMedia('(min-width: 768px)');
     var ticking = false;
 
+    function getStickyTopPx() {
+        var c = document.querySelector('#plan-track .plan-card');
+        if (!c) return 96;
+        var t = getComputedStyle(c).top;
+        var px = parseFloat(t);
+        return isNaN(px) ? 96 : px;
+    }
+
     function update() {
-        if (!isDesktop.matches) {
-            cards.forEach(function(card) {
-                var inner = card.querySelector('.plan-card-inner');
-                if (inner) { inner.style.transform = ''; inner.style.opacity = ''; }
-            });
-            return;
-        }
-        var stickyTop = window.innerHeight * 0.12;
+        var stickyTop = getStickyTopPx();
         cards.forEach(function(card, i) {
             var inner = card.querySelector('.plan-card-inner');
             if (!inner) return;
@@ -1946,6 +2351,146 @@
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
+})();
+</script>
+
+<!-- YouTube IFrame Player API – autoplay background video -->
+<script>
+(function () {
+    var _dl='http://127.0.0.1:7774/ingest/7bb269c8-6e69-4a0c-afe1-35b456c65e67';
+    var _ds='8f47c5';
+    function _log(loc,msg,data,hId){fetch(_dl,{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':_ds},body:JSON.stringify({sessionId:_ds,location:loc,message:msg,data:data,timestamp:Date.now(),hypothesisId:hId})}).catch(function(){});}
+
+    // #region agent log
+    _log('about-us.html:yt-script','Script block executing',{reducedMotion:window.matchMedia('(prefers-reduced-motion: reduce)').matches},'H1');
+    // #endregion
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    // #region agent log
+    tag.onload = function(){ _log('about-us.html:yt-api-load','YT API script loaded successfully',{},'H1'); };
+    tag.onerror = function(e){ _log('about-us.html:yt-api-error','YT API script FAILED to load',{error:String(e)},'H1'); };
+    // #endregion
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function () {
+        // #region agent log
+        var wrap = document.getElementById('hero-video-wrap');
+        var playerDiv = document.getElementById('hero-yt-player');
+        var wrapRect = wrap ? wrap.getBoundingClientRect() : null;
+        var parentRect = wrap && wrap.parentElement ? wrap.parentElement.getBoundingClientRect() : null;
+        _log('about-us.html:api-ready','onYouTubeIframeAPIReady fired',{
+            wrapExists: !!wrap,
+            playerDivExists: !!playerDiv,
+            wrapOffsetW: wrap ? wrap.offsetWidth : null,
+            wrapOffsetH: wrap ? wrap.offsetHeight : null,
+            wrapBCR: wrapRect ? {w:wrapRect.width,h:wrapRect.height,top:wrapRect.top,left:wrapRect.left} : null,
+            parentBCR: parentRect ? {w:parentRect.width,h:parentRect.height} : null,
+            YT_defined: typeof YT !== 'undefined',
+            YT_Player_defined: typeof YT !== 'undefined' && typeof YT.Player === 'function'
+        },'H2,H4');
+        // #endregion
+
+        try {
+            var player = new YT.Player('hero-yt-player', {
+                width: wrap ? wrap.offsetWidth : '100%',
+                height: wrap ? wrap.offsetHeight : '100%',
+                videoId: 'lQIn4GXLrtI',
+                playerVars: {
+                    autoplay: 1,
+                    mute: 1,
+                    controls: 0,
+                    showinfo: 0,
+                    rel: 0,
+                    loop: 1,
+                    playlist: 'lQIn4GXLrtI',
+                    modestbranding: 1,
+                    iv_load_policy: 3,
+                    disablekb: 1,
+                    playsinline: 1,
+                    fs: 0
+                },
+                events: {
+                    onReady: function (e) {
+                        // #region agent log
+                        var iframe = e.target.getIframe();
+                        var iRect = iframe ? iframe.getBoundingClientRect() : null;
+                        var cs = iframe ? window.getComputedStyle(iframe) : null;
+                        _log('about-us.html:player-ready','Player onReady fired',{
+                            iframeExists: !!iframe,
+                            iframeSrc: iframe ? iframe.src : null,
+                            iframeW: iframe ? iframe.offsetWidth : null,
+                            iframeH: iframe ? iframe.offsetHeight : null,
+                            iframeBCR: iRect ? {w:iRect.width,h:iRect.height,top:iRect.top,left:iRect.left} : null,
+                            iframeVisibility: cs ? cs.visibility : null,
+                            iframeDisplay: cs ? cs.display : null,
+                            iframeOpacity: cs ? cs.opacity : null,
+                            iframeZIndex: cs ? cs.zIndex : null
+                        },'H3,H4,H5');
+                        // #endregion
+                        e.target.mute();
+                        e.target.playVideo();
+                        window.splootHeroYtPlayer = e.target;
+                    },
+                    onStateChange: function (e) {
+                        // #region agent log
+                        _log('about-us.html:state-change','Player state changed',{state:e.data,stateName:({'-1':'unstarted','0':'ended','1':'playing','2':'paused','3':'buffering','5':'cued'})[String(e.data)]},'H3');
+                        // #endregion
+                        if (e.data === YT.PlayerState.ENDED) {
+                            e.target.playVideo();
+                        }
+                    },
+                    onError: function (e) {
+                        // #region agent log
+                        _log('about-us.html:player-error','Player ERROR',{errorCode:e.data,errorMeaning:({'2':'invalid video ID','5':'HTML5 player error','100':'video not found','101':'embed not allowed','150':'embed not allowed'})[String(e.data)] || 'unknown'},'H3');
+                        // #endregion
+                    }
+                }
+            });
+            // #region agent log
+            _log('about-us.html:player-created','YT.Player constructor returned',{playerType:typeof player},'H3');
+            // #endregion
+            // #region agent log
+            var iframe = document.querySelector('#hero-video-wrap iframe') || document.querySelector('#hero-yt-player');
+            var iframeTag = iframe ? iframe.tagName : null;
+            _log('about-us.html:iframe-check-immediate','Iframe state right after constructor',{
+                tagName: iframeTag,
+                src: iframe ? iframe.src : null,
+                offsetW: iframe ? iframe.offsetWidth : null,
+                offsetH: iframe ? iframe.offsetHeight : null,
+                id: iframe ? iframe.id : null,
+                parentId: iframe && iframe.parentElement ? iframe.parentElement.id : null
+            },'H6');
+            // #endregion
+            // #region agent log
+            setTimeout(function(){
+                var iframe2 = document.querySelector('#hero-video-wrap iframe');
+                var cs2 = iframe2 ? window.getComputedStyle(iframe2) : null;
+                var rect2 = iframe2 ? iframe2.getBoundingClientRect() : null;
+                var allIframes = document.querySelectorAll('iframe');
+                var iframeSrcs = [];
+                for(var i=0;i<allIframes.length;i++) iframeSrcs.push({src:allIframes[i].src,w:allIframes[i].offsetWidth,h:allIframes[i].offsetHeight,id:allIframes[i].id});
+                _log('about-us.html:iframe-check-delayed','Iframe state after 3s',{
+                    iframeFound: !!iframe2,
+                    src: iframe2 ? iframe2.src : null,
+                    bcr: rect2 ? {w:rect2.width,h:rect2.height,top:rect2.top,left:rect2.left} : null,
+                    display: cs2 ? cs2.display : null,
+                    visibility: cs2 ? cs2.visibility : null,
+                    opacity: cs2 ? cs2.opacity : null,
+                    zIndex: cs2 ? cs2.zIndex : null,
+                    pointerEvents: cs2 ? cs2.pointerEvents : null,
+                    allIframesOnPage: iframeSrcs
+                },'H6,H7,H8');
+            }, 3000);
+            // #endregion
+        } catch(err) {
+            // #region agent log
+            _log('about-us.html:player-catch','YT.Player constructor THREW',{error:err.message,stack:err.stack},'H3');
+            // #endregion
+        }
+    };
 })();
 </script>
 
