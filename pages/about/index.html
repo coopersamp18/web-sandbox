@@ -11,13 +11,13 @@
         /* New Spirit (heading font) */
         @font-face {
             font-family: 'New Spirit';
-            src: url('Fonts/NewSpiritTRIAL-Regular%20copy.otf') format('opentype');
+            src: url('/Fonts/NewSpiritTRIAL-Regular%20copy.otf') format('opentype');
             font-weight: 400;
             font-style: normal;
         }
         @font-face {
             font-family: 'New Spirit';
-            src: url('Fonts/NewSpiritTRIAL-Medium%20copy.otf') format('opentype');
+            src: url('/Fonts/NewSpiritTRIAL-Medium%20copy.otf') format('opentype');
             font-weight: 500;
             font-style: normal;
         }
@@ -448,6 +448,10 @@
         }
         @media (min-width: 1024px) {
             .mega-mobile-menu[data-open] { display: none; }
+        }
+        @media (max-width: 1023px) {
+            #mega-mobile-menu:not([data-open]) { pointer-events: none; }
+            #mega-mobile-menu[data-open] { pointer-events: auto; }
         }
 
         /* ─── About page: scroll-triggered reveals ─── */
@@ -1011,8 +1015,8 @@
 
         <!-- Logo (Center on mobile, Left on desktop) -->
         <div class="shrink-0 flex justify-center lg:justify-start order-2 lg:order-1">
-            <a href="/" class="inline-flex items-center" aria-label="Sploot home">
-                <img src="./photos/logo.avif" alt="Sploot logo" class="h-8 md:h-9 w-auto">
+            <a href="../../index.html" class="inline-flex items-center" aria-label="Sploot home">
+                <img src="/photos/logo.avif" alt="Sploot logo" class="h-8 md:h-9 w-auto">
             </a>
         </div>
 
@@ -1047,7 +1051,7 @@
                                 </div>
                             </a>
                             <h4>Need care today?</h4>
-                            <a href="/todays-availability" class="mega-insight-link mega-insight-link--coral group">
+                            <a href="../today-availability/" class="mega-insight-link mega-insight-link--coral group">
                                 <div class="mega-insight bg-sploot-coral/10">
                                     <p class="mb-0">Find the clinic nearest you with the earliest available appointment time.</p>
                                     <div class="mt-4">
@@ -1137,7 +1141,7 @@
                             </div>
                         </div>
                         <div class="mega-col">
-                            <a href="/" class="mega-insight-link" style="display:block;">
+                            <a href="../about/" class="mega-insight-link" style="display:block;">
                                 <div class="mega-insight">
                                     <p style="font-weight: 600;" class="mb-0">Primary and urgent care under one roof.</p>
                                     <div class="mt-4">
@@ -1145,12 +1149,12 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="tel:+17207408129" class="mega-insight-link mega-insight-link--coral mt-3" style="display:block;">
+                            <a href="tel:+17207708656" class="mega-insight-link mega-insight-link--coral mt-3" style="display:block;">
                                 <div class="mega-insight bg-sploot-coral/10">
                                     <p style="font-weight: 600;" class="mb-0">Not sure where to start?</p>
                                     <div class="mt-4 flex items-center justify-between gap-2">
                                         <span class="mega-insight-cta-text">Talk to a veterinary professional</span>
-                                        <span class="text-sploot-coral font-semibold text-[13px] bg-white/60 px-2 py-0.5 rounded border border-sploot-coral/20 whitespace-nowrap">(720) 740-8129</span>
+                                        <span class="text-sploot-coral font-semibold text-[13px] bg-white/60 px-2 py-0.5 rounded border border-sploot-coral/20 whitespace-nowrap">(720) 770-8656</span>
                                     </div>
                                 </div>
                             </a>
@@ -1160,20 +1164,20 @@
             </div>
 
             <div class="mega-nav-item" data-mega="membership">
-                <a href="/membership">Plans & Pricing <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+                <a href="../membership/">Plans & Pricing <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
                 <div class="mega-dropdown" id="mega-membership">
                     <div class="mega-dropdown-grid">
                         <div class="mega-col">
                             <h4>Plans & Pricing</h4>
                             <ul class="mega-locations-list">
-                                <li><a href="/membership" class="mega-location-item">Membership Plans</a></li>
+                                <li><a href="../membership/" class="mega-location-item">Membership Plans</a></li>
                                 <li><a href="/pricing" class="mega-location-item">Exam & Visit Pricing</a></li>
                                 <li><a href="/financing" class="mega-location-item">Payment Plans</a></li>
                             </ul>
                         </div>
                         <div class="mega-col">
                             <h4>Member Perks</h4>
-                            <a href="/membership" class="mega-insight-link">
+                            <a href="../membership/" class="mega-insight-link">
                                 <div class="mega-insight">
                                     <ul class="text-sm text-sploot-teal mb-0 space-y-2">
                                         <li class="flex items-center gap-2"><svg class="w-4 h-4 text-sploot-coral shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 3 free exams</li>
@@ -1190,7 +1194,7 @@
                 </div>
             </div>
 
-            <a href="/playground" class="px-4 py-3 font-medium text-sploot-teal hover:text-sploot-coral transition-colors">Pharmacy</a>
+            <a href="../splootrx/" class="px-4 py-3 font-medium text-sploot-teal hover:text-sploot-coral transition-colors">Pharmacy</a>
             <a href="/careers" class="px-4 py-3 font-medium text-sploot-teal hover:text-sploot-coral transition-colors">Careers</a>
         </nav>
 
@@ -1283,14 +1287,14 @@
                     <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </summary>
                 <div class="pt-5 pb-3 flex flex-col gap-5">
-                    <a href="/membership" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Membership Plans</a>
+                    <a href="../membership/" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Membership Plans</a>
                     <a href="/pricing" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Exam &amp; Visit Pricing</a>
                     <a href="/financing" class="text-sploot-teal font-medium hover:text-sploot-coral transition-colors">Payment Plans</a>
                 </div>
             </details>
 
             <!-- Pharmacy -->
-            <a href="/playground" class="font-heading text-xl font-bold text-sploot-teal py-5 block hover:text-sploot-coral transition-colors">Pharmacy</a>
+            <a href="../splootrx/" class="font-heading text-xl font-bold text-sploot-teal py-5 block hover:text-sploot-coral transition-colors">Pharmacy</a>
 
             <!-- Careers -->
             <a href="/careers" class="font-heading text-xl font-bold text-sploot-teal py-5 block hover:text-sploot-coral transition-colors">Careers</a>
@@ -1301,8 +1305,8 @@
             <div class="mega-call-now-box bg-sploot-mint rounded-2xl p-4 text-center border border-sploot-teal/10 shadow-sm">
                 <h4 class="font-heading text-xl font-bold text-sploot-teal mb-1">Need Help Now?</h4>
                 <p class="text-sm text-sploot-teal/70 mb-3">Talk to a veterinary professional</p>
-                <a href="tel:+17207408129" class="inline-flex items-center justify-center w-full py-2.5 px-4 border-2 border-sploot-teal text-sploot-teal font-bold rounded-full hover:bg-sploot-teal hover:text-white transition-colors text-base">
-                    (720) 740-8129
+                <a href="tel:+17207708656" class="inline-flex items-center justify-center w-full py-2.5 px-4 border-2 border-sploot-teal text-sploot-teal font-bold rounded-full hover:bg-sploot-teal hover:text-white transition-colors text-base">
+                    (720) 770-8656
                 </a>
             </div>
         </div>
@@ -1335,7 +1339,7 @@
         <div class="about-hero-video" id="hero-video-wrap">
             <div id="hero-yt-player"></div>
         </div>
-        <img src="./photos/Commons Park Sploot 29 (1).webp" alt="" decoding="async" fetchpriority="high">
+        <img src="/photos/Commons Park Sploot 29 (1).webp" alt="" decoding="async" fetchpriority="high">
     </div>
     <div class="about-hero-intro-spacer" aria-hidden="true"></div>
     <div class="about-hero-play-wrap">
@@ -1414,7 +1418,7 @@
 
 <!-- ═══ Section 3: The Guide — "Not Your Ordinary Vet" ═══ -->
 <section class="relative z-20 py-28 md:py-36 px-6 md:px-8 overflow-hidden bg-white section-guide-overlap">
-    <img src="./photos/Sploot 311.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-15">
+    <img src="/photos/Sploot 311.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-15">
     <div class="absolute inset-0 bg-gradient-to-br from-sploot-mint/90 via-white/85 to-sploot-cream/90"></div>
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(224,122,106,0.08),transparent_60%)]"></div>
     <div class="relative z-10 max-w-3xl mx-auto text-center">
@@ -1548,7 +1552,7 @@
                     <!-- Replace with real app screenshot -->
                     <div class="relative bg-gradient-to-b from-sploot-cream to-white rounded-[2rem] overflow-hidden aspect-[9/19.5]">
                         <div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                            <img src="./photos/logo.avif" alt="Sploot" class="h-6 w-auto mb-4 opacity-25">
+                            <img src="/photos/logo.avif" alt="Sploot" class="h-6 w-auto mb-4 opacity-25">
                             <p class="text-sploot-teal/15 text-[0.65rem]">App screenshot placeholder</p>
                         </div>
                     </div>
@@ -1745,19 +1749,19 @@
         <!-- Replace each gallery-item background with real clinic photos via background-image or <img> -->
         <div class="about-reveal gallery-grid" data-delay="1">
             <div class="gallery-item">
-                <img src="./photos/Sploot.webp" alt="Inside a Sploot veterinary clinic" class="absolute inset-0 w-full h-full object-cover">
+                <img src="/photos/Sploot.webp" alt="Inside a Sploot veterinary clinic" class="absolute inset-0 w-full h-full object-cover">
             </div>
             <div class="gallery-item">
-                <img src="./photos/Sploot (1).webp" alt="Sploot clinic welcoming space" class="absolute inset-0 w-full h-full object-cover">
+                <img src="/photos/Sploot (1).webp" alt="Sploot clinic welcoming space" class="absolute inset-0 w-full h-full object-cover">
             </div>
             <div class="gallery-item">
-                <img src="./photos/Sploot 311 (1).webp" alt="Sploot 311 location" class="absolute inset-0 w-full h-full object-cover">
+                <img src="/photos/Sploot 311 (1).webp" alt="Sploot 311 location" class="absolute inset-0 w-full h-full object-cover">
             </div>
             <div class="gallery-item">
-                <img src="./photos/Sploot (1) (1).jpg" alt="Sploot veterinary care team" class="absolute inset-0 w-full h-full object-cover">
+                <img src="/photos/Sploot (1) (1).jpg" alt="Sploot veterinary care team" class="absolute inset-0 w-full h-full object-cover">
             </div>
             <div class="gallery-item">
-                <img src="./photos/Sploot (2) (1).jpg" alt="Pets at Sploot clinic" class="absolute inset-0 w-full h-full object-cover">
+                <img src="/photos/Sploot (2) (1).jpg" alt="Pets at Sploot clinic" class="absolute inset-0 w-full h-full object-cover">
             </div>
         </div>
     </div>
@@ -1771,7 +1775,7 @@
         <div class="text-center mb-16">
             <div class="about-reveal">
                 <div class="inline-flex items-center gap-3 bg-white/10 rounded-full px-5 py-2 mb-8">
-                    <img src="./photos/splootpack.png" alt="SplootPack" class="h-5 w-auto brightness-0 invert">
+                    <img src="/photos/splootpack.png" alt="SplootPack" class="h-5 w-auto brightness-0 invert">
                     <span class="text-white/60 text-xs font-semibold uppercase tracking-[0.2em]">Membership</span>
                 </div>
             </div>
@@ -1832,7 +1836,7 @@
                 </div>
 
                 <div class="mt-auto pt-8">
-                    <a href="/membership" class="w-full inline-flex items-center justify-center gap-2 bg-sploot-coral text-white py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-sploot-coral/20 hover:shadow-xl hover:shadow-sploot-coral/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+                    <a href="../membership/" class="w-full inline-flex items-center justify-center gap-2 bg-sploot-coral text-white py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-sploot-coral/20 hover:shadow-xl hover:shadow-sploot-coral/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
                         See membership plans
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
@@ -2011,8 +2015,8 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 mb-14">
             <!-- Brand column -->
             <div class="col-span-2 md:col-span-1">
-                <a href="/" class="inline-block mb-4">
-                    <img src="./photos/logo.avif" alt="Sploot logo" class="h-8 w-auto brightness-0 invert">
+                <a href="../../index.html" class="inline-block mb-4">
+                    <img src="/photos/logo.avif" alt="Sploot logo" class="h-8 w-auto brightness-0 invert">
                 </a>
                 <p class="text-white/50 text-sm leading-relaxed max-w-xs">
                     Primary &amp; urgent veterinary care, open 365 days a year.
@@ -2023,9 +2027,10 @@
             <div>
                 <h4 class="font-heading font-bold text-xs uppercase tracking-[0.15em] text-white/40 mb-4">Pages</h4>
                 <ul class="space-y-2.5">
-                    <li><a href="about-us.html" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">About Us</a></li>
-                    <li><a href="splootrx-section.html" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">SplootRx Pharmacy</a></li>
-                    <li><a href="membership-pricing.html" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">Membership Pricing</a></li>
+                    <li><a href="../about/" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">About Us</a></li>
+                    <li><a href="../splootrx/" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">SplootRx Pharmacy</a></li>
+                    <li><a href="../membership/" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">Membership Pricing</a></li>
+                    <li><a href="../today-availability/" class="text-sm text-white/70 hover:text-sploot-coral transition-colors">Today's Availability</a></li>
                 </ul>
             </div>
 
@@ -2045,9 +2050,9 @@
                 <h4 class="font-heading font-bold text-xs uppercase tracking-[0.15em] text-white/40 mb-4">Get in Touch</h4>
                 <ul class="space-y-2.5">
                     <li>
-                        <a href="tel:+17207408129" class="text-sm text-white/70 hover:text-sploot-coral transition-colors flex items-center gap-2">
+                        <a href="tel:+17207708656" class="text-sm text-white/70 hover:text-sploot-coral transition-colors flex items-center gap-2">
                             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            (720) 740-8129
+                            (720) 770-8656
                         </a>
                     </li>
                     <li>
@@ -2362,7 +2367,7 @@
     function _log(loc,msg,data,hId){fetch(_dl,{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':_ds},body:JSON.stringify({sessionId:_ds,location:loc,message:msg,data:data,timestamp:Date.now(),hypothesisId:hId})}).catch(function(){});}
 
     // #region agent log
-    _log('about-us.html:yt-script','Script block executing',{reducedMotion:window.matchMedia('(prefers-reduced-motion: reduce)').matches},'H1');
+    _log('pages/about/index.html:yt-script','Script block executing',{reducedMotion:window.matchMedia('(prefers-reduced-motion: reduce)').matches},'H1');
     // #endregion
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -2370,8 +2375,8 @@
     var tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     // #region agent log
-    tag.onload = function(){ _log('about-us.html:yt-api-load','YT API script loaded successfully',{},'H1'); };
-    tag.onerror = function(e){ _log('about-us.html:yt-api-error','YT API script FAILED to load',{error:String(e)},'H1'); };
+    tag.onload = function(){ _log('pages/about/index.html:yt-api-load','YT API script loaded successfully',{},'H1'); };
+    tag.onerror = function(e){ _log('pages/about/index.html:yt-api-error','YT API script FAILED to load',{error:String(e)},'H1'); };
     // #endregion
     document.head.appendChild(tag);
 
@@ -2381,7 +2386,7 @@
         var playerDiv = document.getElementById('hero-yt-player');
         var wrapRect = wrap ? wrap.getBoundingClientRect() : null;
         var parentRect = wrap && wrap.parentElement ? wrap.parentElement.getBoundingClientRect() : null;
-        _log('about-us.html:api-ready','onYouTubeIframeAPIReady fired',{
+        _log('pages/about/index.html:api-ready','onYouTubeIframeAPIReady fired',{
             wrapExists: !!wrap,
             playerDivExists: !!playerDiv,
             wrapOffsetW: wrap ? wrap.offsetWidth : null,
@@ -2418,7 +2423,7 @@
                         var iframe = e.target.getIframe();
                         var iRect = iframe ? iframe.getBoundingClientRect() : null;
                         var cs = iframe ? window.getComputedStyle(iframe) : null;
-                        _log('about-us.html:player-ready','Player onReady fired',{
+                        _log('pages/about/index.html:player-ready','Player onReady fired',{
                             iframeExists: !!iframe,
                             iframeSrc: iframe ? iframe.src : null,
                             iframeW: iframe ? iframe.offsetWidth : null,
@@ -2436,7 +2441,7 @@
                     },
                     onStateChange: function (e) {
                         // #region agent log
-                        _log('about-us.html:state-change','Player state changed',{state:e.data,stateName:({'-1':'unstarted','0':'ended','1':'playing','2':'paused','3':'buffering','5':'cued'})[String(e.data)]},'H3');
+                        _log('pages/about/index.html:state-change','Player state changed',{state:e.data,stateName:({'-1':'unstarted','0':'ended','1':'playing','2':'paused','3':'buffering','5':'cued'})[String(e.data)]},'H3');
                         // #endregion
                         if (e.data === YT.PlayerState.ENDED) {
                             e.target.playVideo();
@@ -2444,18 +2449,18 @@
                     },
                     onError: function (e) {
                         // #region agent log
-                        _log('about-us.html:player-error','Player ERROR',{errorCode:e.data,errorMeaning:({'2':'invalid video ID','5':'HTML5 player error','100':'video not found','101':'embed not allowed','150':'embed not allowed'})[String(e.data)] || 'unknown'},'H3');
+                        _log('pages/about/index.html:player-error','Player ERROR',{errorCode:e.data,errorMeaning:({'2':'invalid video ID','5':'HTML5 player error','100':'video not found','101':'embed not allowed','150':'embed not allowed'})[String(e.data)] || 'unknown'},'H3');
                         // #endregion
                     }
                 }
             });
             // #region agent log
-            _log('about-us.html:player-created','YT.Player constructor returned',{playerType:typeof player},'H3');
+            _log('pages/about/index.html:player-created','YT.Player constructor returned',{playerType:typeof player},'H3');
             // #endregion
             // #region agent log
             var iframe = document.querySelector('#hero-video-wrap iframe') || document.querySelector('#hero-yt-player');
             var iframeTag = iframe ? iframe.tagName : null;
-            _log('about-us.html:iframe-check-immediate','Iframe state right after constructor',{
+            _log('pages/about/index.html:iframe-check-immediate','Iframe state right after constructor',{
                 tagName: iframeTag,
                 src: iframe ? iframe.src : null,
                 offsetW: iframe ? iframe.offsetWidth : null,
@@ -2472,7 +2477,7 @@
                 var allIframes = document.querySelectorAll('iframe');
                 var iframeSrcs = [];
                 for(var i=0;i<allIframes.length;i++) iframeSrcs.push({src:allIframes[i].src,w:allIframes[i].offsetWidth,h:allIframes[i].offsetHeight,id:allIframes[i].id});
-                _log('about-us.html:iframe-check-delayed','Iframe state after 3s',{
+                _log('pages/about/index.html:iframe-check-delayed','Iframe state after 3s',{
                     iframeFound: !!iframe2,
                     src: iframe2 ? iframe2.src : null,
                     bcr: rect2 ? {w:rect2.width,h:rect2.height,top:rect2.top,left:rect2.left} : null,
@@ -2487,7 +2492,7 @@
             // #endregion
         } catch(err) {
             // #region agent log
-            _log('about-us.html:player-catch','YT.Player constructor THREW',{error:err.message,stack:err.stack},'H3');
+            _log('pages/about/index.html:player-catch','YT.Player constructor THREW',{error:err.message,stack:err.stack},'H3');
             // #endregion
         }
     };

@@ -1,3 +1,4 @@
 .DS_Store
+.cursor/
 
 # Trigger deploy: verify GitHub → Vercel after failed production deployment

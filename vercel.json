@@ -1,9 +1,17 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
-    { "source": "/about", "destination": "/about-us.html" },
-    { "source": "/splootrx", "destination": "/splootrx-section.html" },
-    { "source": "/playground", "destination": "/splootrx-section.html" },
-    { "source": "/membership", "destination": "/membership-pricing.html" }
+    { "source": "/about", "destination": "/pages/about/index.html" },
+    { "source": "/about/", "destination": "/pages/about/index.html" },
+    { "source": "/splootrx", "destination": "/pages/splootrx/index.html" },
+    { "source": "/splootrx/", "destination": "/pages/splootrx/index.html" },
+    { "source": "/membership", "destination": "/pages/membership/index.html" },
+    { "source": "/membership/", "destination": "/pages/membership/index.html" },
+    { "source": "/playground", "destination": "/pages/splootrx/index.html" },
+    { "source": "/playground/", "destination": "/pages/splootrx/index.html" },
+    { "source": "/today-availability", "destination": "/pages/today-availability/index.html" },
+    { "source": "/today-availability/", "destination": "/pages/today-availability/index.html" },
+    { "source": "/todays-availability", "destination": "/pages/today-availability/index.html" },
+    { "source": "/todays-availability/", "destination": "/pages/today-availability/index.html" }
   ]
 }
