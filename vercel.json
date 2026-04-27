@@ -12,6 +12,10 @@
     { "source": "/today-availability", "destination": "/pages/today-availability/index.html" },
     { "source": "/today-availability/", "destination": "/pages/today-availability/index.html" },
     { "source": "/todays-availability", "destination": "/pages/today-availability/index.html" },
-    { "source": "/todays-availability/", "destination": "/pages/today-availability/index.html" }
+    { "source": "/todays-availability/", "destination": "/pages/today-availability/index.html" },
+    { "source": "/emergency-services", "destination": "/pages/emergency-services/index.html" },
+    { "source": "/emergency-services/", "destination": "/pages/emergency-services/index.html" },
+    { "source": "/emergency", "destination": "/pages/emergency-services/index.html" },
+    { "source": "/emergency/", "destination": "/pages/emergency-services/index.html" }
   ]
 }
