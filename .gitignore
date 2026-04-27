@@ -1,4 +1,5 @@
 .DS_Store
 .cursor/
+.claude/settings.local.json
 
 # Trigger deploy: verify GitHub → Vercel after failed production deployment
