@@ -16,6 +16,16 @@
     { "source": "/emergency-services", "destination": "/pages/emergency-services/index.html" },
     { "source": "/emergency-services/", "destination": "/pages/emergency-services/index.html" },
     { "source": "/emergency", "destination": "/pages/emergency-services/index.html" },
-    { "source": "/emergency/", "destination": "/pages/emergency-services/index.html" }
+    { "source": "/emergency/", "destination": "/pages/emergency-services/index.html" },
+    { "source": "/our-services/primary-care", "destination": "/pages/primary-care/index.html" },
+    { "source": "/our-services/primary-care/", "destination": "/pages/primary-care/index.html" },
+    { "source": "/primary-care", "destination": "/pages/primary-care/index.html" },
+    { "source": "/primary-care/", "destination": "/pages/primary-care/index.html" },
+    { "source": "/our-services/wellness-exams", "destination": "/pages/wellness-exams/index.html" },
+    { "source": "/our-services/wellness-exams/", "destination": "/pages/wellness-exams/index.html" },
+    { "source": "/our-services/wellness-preventive-care", "destination": "/pages/wellness-exams/index.html" },
+    { "source": "/our-services/wellness-preventive-care/", "destination": "/pages/wellness-exams/index.html" },
+    { "source": "/wellness-exams", "destination": "/pages/wellness-exams/index.html" },
+    { "source": "/wellness-exams/", "destination": "/pages/wellness-exams/index.html" }
   ]
 }
