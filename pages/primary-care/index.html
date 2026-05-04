@@ -415,7 +415,7 @@
             display: inline-block;
             font-family: var(--font-sans); font-weight: 700;
             font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
-            color: var(--color-fire-opal);
+            color: var(--color-midnight-eagle);
             margin-bottom: 20px;
         }
         .pc-page .crumb {
@@ -533,12 +533,14 @@
                         box-shadow var(--dur-base) var(--ease-out-soft);
         }
         .pc-page .cover-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .pc-page .cover-card--static { cursor: default; }
+        .pc-page .cover-card--static:hover { transform: none; box-shadow: none; }
         .pc-page .cover-card .cover-icon {
             width: 56px; height: 56px;
             border-radius: 14px;
             background: var(--color-timberwolf-warm);
             display: flex; align-items: center; justify-content: center;
-            color: var(--color-fire-opal);
+            color: var(--color-midnight-eagle);
             margin-bottom: 22px;
         }
         .pc-page .cover-card .cover-icon svg { width: 26px; height: 26px; stroke-width: 1.8; }
@@ -549,7 +551,7 @@
             margin-top: auto;
             font-family: var(--font-sans); font-weight: 700;
             font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
-            color: var(--color-fire-opal);
+            color: var(--color-midnight-eagle);
             transition: gap var(--dur-base) var(--ease-out-soft);
         }
         .pc-page .cover-card:hover .cover-link { gap: 10px; }
@@ -569,43 +571,95 @@
         .pc-page .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
         .pc-page .why-card .why-num {
             font-family: var(--font-serif); font-size: 32px; font-weight: 500;
-            color: var(--color-fire-opal); line-height: 1; margin-bottom: 18px;
+            color: var(--color-midnight-eagle); line-height: 1; margin-bottom: 18px;
         }
         .pc-page .why-card h4 { font-size: 22px; margin-bottom: 10px; color: var(--color-midnight-eagle); }
         .pc-page .why-card p { font-size: 15px; color: var(--color-granite-grey); margin: 0; line-height: 1.55; }
 
         /* §4 LIFE STAGE */
         .pc-page .stage-block { background: var(--color-timberwolf-warm); }
-        .pc-page .stage-head { text-align: center; max-width: 760px; margin: 0 auto 56px; }
+        .pc-page .stage-head { text-align: center; max-width: 760px; margin: 0 auto 40px; }
         .pc-page .stage-head h2 { font-size: 48px; margin-bottom: 14px; color: var(--color-midnight-eagle); }
-        .pc-page .stage-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-            max-width: 1200px; margin: 0 auto;
+
+        .pc-page .stage-tabs {
+            display: flex; gap: 4px;
+            max-width: 1080px; margin: 0 auto 28px;
+            border-bottom: 1px solid var(--color-timberwolf-cool);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
-        .pc-page .stage-card {
+        .pc-page .stage-tabs::-webkit-scrollbar { display: none; }
+        .pc-page .stage-tab {
+            display: flex; flex-direction: column; align-items: flex-start;
+            gap: 6px;
+            background: transparent; border: none;
+            padding: 14px 20px 16px;
+            cursor: pointer;
+            flex: 1 1 0;
+            font-family: inherit;
+            text-align: left;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            white-space: nowrap;
+            transition: border-color var(--dur-base) var(--ease-out-soft),
+                        background var(--dur-base) var(--ease-standard);
+        }
+        .pc-page .stage-tab:focus-visible {
+            outline: 2px solid var(--color-fire-opal);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        .pc-page .stage-tab .stage-tab-age {
+            font-family: var(--font-sans); font-weight: 700;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--color-granite-grey);
+            transition: color var(--dur-base) var(--ease-out-soft);
+        }
+        .pc-page .stage-tab .stage-tab-name {
+            font-family: var(--font-serif); font-size: 20px; font-weight: 500;
+            color: var(--color-midnight-eagle);
+            transition: color var(--dur-base) var(--ease-out-soft);
+        }
+        .pc-page .stage-tab:hover .stage-tab-age { color: var(--color-midnight-eagle); }
+        .pc-page .stage-tab.is-active { border-bottom-color: var(--color-midnight-eagle); }
+        .pc-page .stage-tab.is-active .stage-tab-age { color: var(--color-midnight-eagle); }
+
+        .pc-page .stage-panels {
+            max-width: 1080px; margin: 0 auto;
+        }
+        .pc-page .stage-panel {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
             background: var(--color-white);
             border: 1px solid var(--color-timberwolf-cool);
             border-radius: var(--r-lg);
             overflow: hidden;
-            display: flex; flex-direction: column;
-            transition: transform var(--dur-base) var(--ease-out-soft),
-                        box-shadow var(--dur-base) var(--ease-out-soft);
+            animation: stage-panel-fade var(--dur-base) var(--ease-out-soft);
         }
-        .pc-page .stage-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .pc-page .stage-card .stage-img {
+        .pc-page .stage-panel[hidden] { display: none; }
+        @keyframes stage-panel-fade {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pc-page .stage-panel .stage-img {
             aspect-ratio: 4/3; overflow: hidden;
             background: var(--color-timberwolf-cool);
         }
-        .pc-page .stage-card .stage-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-out-soft); }
-        .pc-page .stage-card:hover .stage-img img { transform: scale(1.04); }
-        .pc-page .stage-card .stage-body { padding: 26px 28px 28px; }
-        .pc-page .stage-card .stage-age {
+        .pc-page .stage-panel .stage-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .pc-page .stage-panel .stage-body {
+            padding: 40px 48px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .pc-page .stage-panel .stage-age {
             display: inline-block; font-family: var(--font-sans); font-weight: 700;
             font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-            color: var(--color-fire-opal); margin-bottom: 10px;
+            color: var(--color-midnight-eagle); margin-bottom: 12px;
         }
-        .pc-page .stage-card h3 { font-size: 24px; margin-bottom: 10px; color: var(--color-midnight-eagle); }
-        .pc-page .stage-card p { font-size: 15px; color: var(--color-granite-grey); margin: 0; line-height: 1.55; }
+        .pc-page .stage-panel h3 { font-size: 28px; margin-bottom: 12px; color: var(--color-midnight-eagle); }
+        .pc-page .stage-panel p { font-size: 16px; color: var(--color-granite-grey); margin: 0; line-height: 1.6; }
 
         /* §5 BEYOND */
         .pc-page .beyond-head { max-width: 760px; margin: 0 auto 48px; text-align: center; }
@@ -702,11 +756,6 @@
             overflow: hidden;
         }
         .pc-page .pack-card .pack-visual img { width: 100%; height: 100%; object-fit: cover; }
-        .pc-page .pack-card .pack-visual::after {
-            content: ""; position: absolute; inset: 0;
-            background: linear-gradient(115deg, rgba(239, 73, 83, 0.55) 0%, rgba(239, 73, 83, 0) 60%);
-            pointer-events: none;
-        }
 
         /* §7 FAQ */
         .pc-page .acc-head { text-align: center; max-width: 760px; margin: 0 auto 48px; }
@@ -748,7 +797,7 @@
             margin-top: -3px;
             transition: border-color var(--dur-fast) var(--ease-standard);
         }
-        .pc-page .acc-item[open] summary .chev { background: var(--color-fire-opal); transform: rotate(180deg); }
+        .pc-page .acc-item[open] summary .chev { background: var(--color-midnight-eagle); transform: rotate(180deg); }
         .pc-page .acc-item[open] summary .chev::before { border-color: #fff; }
         .pc-page .acc-item .acc-body {
             padding: 0 8px 26px;
@@ -809,8 +858,9 @@
             .pc-page .hero-visual { max-width: 440px; margin: 0 auto; }
             .pc-page .why-grid { grid-template-columns: repeat(2, 1fr); }
             .pc-page .why-grid > :nth-child(3) { grid-column: 1 / -1; }
-            .pc-page .stage-grid { grid-template-columns: repeat(2, 1fr); max-width: 720px; margin: 0 auto; }
-            .pc-page .stage-grid > :nth-child(3) { grid-column: 1 / -1; max-width: 480px; margin: 0 auto; width: 100%; }
+            .pc-page .stage-tabs { max-width: 720px; }
+            .pc-page .stage-panel { grid-template-columns: 1fr 1fr; }
+            .pc-page .stage-panel .stage-body { padding: 32px 36px; }
             .pc-page .beyond-links { grid-template-columns: 1fr; }
             .pc-page .pack-card { grid-template-columns: 1fr; }
             .pc-page .pack-card .pack-copy { padding: 48px 40px; }
@@ -826,7 +876,8 @@
         }
         @media (max-width: 720px) {
             .pc-page .why-grid { grid-template-columns: 1fr; }
-            .pc-page .stage-grid { grid-template-columns: 1fr; }
+            .pc-page .stage-panel { grid-template-columns: 1fr; }
+            .pc-page .stage-panel .stage-img { aspect-ratio: 16/10; }
             .pc-page .covers-grid { grid-template-columns: 1fr; gap: 16px; }
         }
         @media (max-width: 640px) {
@@ -866,8 +917,12 @@
             .pc-page .cover-card h3 { font-size: 20px; }
             .pc-page .why-card { padding: 22px; }
             .pc-page .why-card h4 { font-size: 18px; }
-            .pc-page .stage-card .stage-body { padding: 22px; }
-            .pc-page .stage-card h3 { font-size: 20px; }
+            .pc-page .stage-tab { padding: 12px 12px 14px; gap: 4px; }
+            .pc-page .stage-tab .stage-tab-age { font-size: 10px; letter-spacing: 0.1em; }
+            .pc-page .stage-tab .stage-tab-name { font-size: 16px; }
+            .pc-page .stage-panel .stage-body { padding: 24px 22px 26px; }
+            .pc-page .stage-panel h3 { font-size: 22px; }
+            .pc-page .stage-panel p { font-size: 15px; }
             .pc-page .pack-card .pack-copy { padding: 36px 24px; }
             .pc-page .pack-card h2 { font-size: 28px; }
             .pc-page .pack-card .pack-perks li { font-size: 15px; }
@@ -1226,14 +1281,13 @@
                 <p>Core and lifestyle vaccines, scheduled around your pet's age and environment. We tailor what's needed — and skip what isn't.</p>
                 <span class="cover-link">See vaccine schedule <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
             </a>
-            <a href="/services#parasite-prevention" class="cover-card">
+            <div class="cover-card cover-card--static">
                 <div class="cover-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 </div>
                 <h3>Parasite Prevention</h3>
                 <p>Year-round protection from heartworm, fleas, ticks, and intestinal parasites. We pick what fits your pet and your zip code.</p>
-                <span class="cover-link">Explore prevention <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
-            </a>
+            </div>
             <a href="/services#dental" class="cover-card">
                 <div class="cover-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -1278,8 +1332,23 @@
             <h2>Care that <em>grows</em> with your pet.</h2>
         </div>
 
-        <div class="stage-grid">
-            <div class="stage-card">
+        <div class="stage-tabs" role="tablist" aria-label="Care by life stage">
+            <button type="button" role="tab" id="stage-tab-puppies" aria-controls="stage-panel-puppies" aria-selected="true" tabindex="0" class="stage-tab is-active" data-stage="puppies">
+                <span class="stage-tab-age">0 – 12 months</span>
+                <span class="stage-tab-name">Puppies &amp; Kittens</span>
+            </button>
+            <button type="button" role="tab" id="stage-tab-adult" aria-controls="stage-panel-adult" aria-selected="false" tabindex="-1" class="stage-tab" data-stage="adult">
+                <span class="stage-tab-age">1 – 7 years</span>
+                <span class="stage-tab-name">Adult Pets</span>
+            </button>
+            <button type="button" role="tab" id="stage-tab-senior" aria-controls="stage-panel-senior" aria-selected="false" tabindex="-1" class="stage-tab" data-stage="senior">
+                <span class="stage-tab-age">7+ years</span>
+                <span class="stage-tab-name">Senior Pets</span>
+            </button>
+        </div>
+
+        <div class="stage-panels">
+            <div role="tabpanel" id="stage-panel-puppies" aria-labelledby="stage-tab-puppies" class="stage-panel is-active" data-stage="puppies">
                 <div class="stage-img"><img src="/photos/Sploot 311.webp" alt="A young puppy at a Sploot exam"></div>
                 <div class="stage-body">
                     <span class="stage-age">0 – 12 months</span>
@@ -1287,7 +1356,7 @@
                     <p>Visits every 3–4 weeks at first. Initial vaccine series, parasite prevention, spay/neuter planning, and nutrition guidance.</p>
                 </div>
             </div>
-            <div class="stage-card">
+            <div role="tabpanel" id="stage-panel-adult" aria-labelledby="stage-tab-adult" class="stage-panel" data-stage="adult" hidden>
                 <div class="stage-img"><img src="/photos/Sploot (1).webp" alt="An adult dog at a Sploot wellness exam"></div>
                 <div class="stage-body">
                     <span class="stage-age">1 – 7 years</span>
@@ -1295,8 +1364,8 @@
                     <p>One yearly wellness exam covers most of what an adult pet needs — vaccine boosters, heartworm screening, and a dental evaluation.</p>
                 </div>
             </div>
-            <div class="stage-card">
-                <div class="stage-img"><img src="/photos/Commons Park Sploot 29 (1).webp" alt="A senior dog being cared for"></div>
+            <div role="tabpanel" id="stage-panel-senior" aria-labelledby="stage-tab-senior" class="stage-panel" data-stage="senior" hidden>
+                <div class="stage-img"><img src="/photos/Senior%20Dog.webp" alt="Two Sploot vet team members gently examining a senior dog on the exam table"></div>
                 <div class="stage-body">
                     <span class="stage-age">7+ years</span>
                     <h3>Senior Pets</h3>
@@ -1353,7 +1422,7 @@
                 <a href="../membership/" class="pack-cta">See all benefits <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
             </div>
             <div class="pack-visual">
-                <img src="/photos/splootpack.png" alt="SplootPack membership card">
+                <img src="/photos/Contact%20Payment.webp" alt="A golden retriever resting paws on the Sploot front-desk counter while the receptionist helps a client check out">
             </div>
         </div>
     </section>
@@ -1374,9 +1443,9 @@
             </details>
 
             <details class="acc-item">
-                <summary>How do I transfer records from my old vet? <span class="chev"></span></summary>
+                <summary>How do I send records from my old vet? <span class="chev"></span></summary>
                 <div class="acc-body">
-                    <p>Easiest path: send us your previous vet's name and clinic when you book, and we'll request the records on your behalf. If you'd rather handle it directly, your old clinic can email or fax the records — we'll have them in your pet's chart before the first visit.</p>
+                    <p>Call your previous vet and ask them to email your pet's full medical records to <a href="mailto:records@splootvets.com">records@splootvets.com</a>. We recommend reaching out at least 48 hours before your appointment, since some clinics take a couple of days to process the request.</p>
                 </div>
             </details>
 
@@ -1390,7 +1459,7 @@
             <details class="acc-item">
                 <summary>What payment options do you accept? <span class="chev"></span></summary>
                 <div class="acc-body">
-                    <p>All major credit cards, debit, HSA/FSA cards, and CareCredit. For larger procedures, we offer financing through Scratchpay and CareCredit so you can spread payments over 6–24 months. We also provide upfront estimates so you know what to expect before any treatment begins.</p>
+                    <p>All major credit cards, debit, and CareCredit. For larger procedures, CareCredit financing lets you spread payments over 6–24 months. We also provide upfront estimates so you know what to expect before any treatment begins. (We're an animal hospital, so HSA/FSA cards aren't eligible.)</p>
                 </div>
             </details>
 
@@ -1542,6 +1611,42 @@
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeAll();
+    });
+})();
+</script>
+
+<!-- ─── Life-stage tabs ─── -->
+<script>
+(function() {
+    var tabs = document.querySelectorAll('.pc-page .stage-tab');
+    var panels = document.querySelectorAll('.pc-page .stage-panel');
+    if (!tabs.length || !panels.length) return;
+
+    function activate(stage, focus) {
+        tabs.forEach(function(t) {
+            var on = t.dataset.stage === stage;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.setAttribute('tabindex', on ? '0' : '-1');
+            if (on && focus) t.focus();
+        });
+        panels.forEach(function(p) {
+            var on = p.dataset.stage === stage;
+            p.classList.toggle('is-active', on);
+            if (on) p.removeAttribute('hidden');
+            else p.setAttribute('hidden', '');
+        });
+    }
+
+    tabs.forEach(function(tab, idx) {
+        tab.addEventListener('click', function() { activate(tab.dataset.stage, false); });
+        tab.addEventListener('keydown', function(e) {
+            var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+            if (!dir) return;
+            e.preventDefault();
+            var next = tabs[(idx + dir + tabs.length) % tabs.length];
+            activate(next.dataset.stage, true);
+        });
     });
 })();
 </script>
