@@ -26,6 +26,8 @@
     { "source": "/our-services/wellness-preventive-care", "destination": "/pages/wellness-exams/index.html" },
     { "source": "/our-services/wellness-preventive-care/", "destination": "/pages/wellness-exams/index.html" },
     { "source": "/wellness-exams", "destination": "/pages/wellness-exams/index.html" },
-    { "source": "/wellness-exams/", "destination": "/pages/wellness-exams/index.html" }
+    { "source": "/wellness-exams/", "destination": "/pages/wellness-exams/index.html" },
+    { "source": "/locations/denver", "destination": "/pages/locations/denver/index.html" },
+    { "source": "/locations/denver/", "destination": "/pages/locations/denver/index.html" }
   ]
 }
