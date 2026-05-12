@@ -2,4 +2,8 @@
 .cursor/
 .claude/settings.local.json
 
+# Sibling/nested projects that live in this folder but track separately
+Sploot Website Playground/
+org-profile-readme/
+
 # Trigger deploy: verify GitHub → Vercel after failed production deployment
