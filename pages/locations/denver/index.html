@@ -2398,18 +2398,32 @@ Book your way &amp; text with vets for personalized care, plus enjoy transparent
 </div>
 </div>
 <style>
-.vets-grid {
+.dvr-vets-slider { position: relative; }
+.dvr-vets-track {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 300px);
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 24px;
+  padding: 8px 24px 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.dvr-vets-track::-webkit-scrollbar { display: none; }
 .vet-card {
-  background: #FAF7F4;
+  scroll-snap-align: start;
+  background: #FFFFFF;
   border-radius: 16px;
   overflow: hidden;
   text-align: left;
+  box-shadow: 0 4px 16px rgba(27, 75, 75, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
+.vet-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(27, 75, 75, 0.12); }
 .vet-card .vet-photo {
   aspect-ratio: 4 / 3;
   background: linear-gradient(135deg, #E9DFD8 0%, #F2EAE4 100%);
@@ -2424,8 +2438,17 @@ Book your way &amp; text with vets for personalized care, plus enjoy transparent
 .vet-card .vet-name { font-size: 20px; font-weight: 600; color: #1B4B4B; margin: 0 0 4px; }
 .vet-card .vet-title { font-size: 14px; color: #E25E5A; margin: 0 0 12px; letter-spacing: .02em; }
 .vet-card .vet-bio { font-size: 15px; line-height: 1.55; color: #444; margin: 0; }
+.dvr-vets-controls { display: flex; justify-content: center; gap: 12px; margin-top: 8px; }
+.dvr-vets-btn {
+  width: 44px; height: 44px; border-radius: 999px;
+  border: 1px solid rgba(27,75,75,0.15); background: #FFFFFF;
+  color: #1B4B4B; font-size: 20px; line-height: 1; cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.dvr-vets-btn:hover { background: #E25E5A; border-color: #E25E5A; color: #FFFFFF; }
 </style>
-<div class="vets-grid">
+<div class="dvr-vets-slider">
+<div class="dvr-vets-track" id="dvrVetsTrack">
 <div class="vet-card">
 <div class="vet-photo" role="img" aria-label="Dr. Maya Chen, Medical Director at Sploot Highlands Denver vet clinic">MC</div>
 <div class="vet-body">
@@ -2475,6 +2498,22 @@ Book your way &amp; text with vets for personalized care, plus enjoy transparent
 </div>
 </div>
 </div>
+<div class="dvr-vets-controls">
+<button class="dvr-vets-btn" id="dvrVetsPrev" aria-label="Previous veterinarians">‹</button>
+<button class="dvr-vets-btn" id="dvrVetsNext" aria-label="Next veterinarians">›</button>
+</div>
+</div>
+<script>
+(function(){
+  var t = document.getElementById('dvrVetsTrack');
+  var p = document.getElementById('dvrVetsPrev');
+  var n = document.getElementById('dvrVetsNext');
+  if(!t || !p || !n) return;
+  function step(){ var c = t.querySelector('.vet-card'); return c ? c.getBoundingClientRect().width + 20 : 300; }
+  p.addEventListener('click', function(){ t.scrollBy({ left: -step(), behavior: 'smooth' }); });
+  n.addEventListener('click', function(){ t.scrollBy({ left:  step(), behavior: 'smooth' }); });
+})();
+</script>
 <div style="text-align:center;margin-top:32px;">
 <a href="/team" class="button-secondary">Meet the full Sploot team</a>
 </div>
