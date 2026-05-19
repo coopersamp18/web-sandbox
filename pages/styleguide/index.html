@@ -301,6 +301,167 @@
             100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
+        /* ─────────────────────────────────────────────
+           Unified card system — .s-card
+           Base + slot elements (BEM) + modifiers.
+           Replaces several one-off card classes across pages.
+           ───────────────────────────────────────────── */
+        .s-card {
+            background: #fff;
+            border: 1px solid rgba(27, 75, 75, 0.10);
+            border-radius: 18px;
+            padding: 28px;
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .s-card--hoverable:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px -16px rgba(27, 75, 75, 0.18);
+        }
+        .s-card--center { text-align: center; align-items: center; }
+        .s-card--featured { background: #1B4B4B; color: #FAF7F4; border-color: transparent; }
+        .s-card--bordered { border: 2px solid rgba(224, 122, 106, 0.25); }
+
+        /* Card slots */
+        .s-card__icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            background: #F2EAE4;
+            display: grid; place-items: center;
+            color: #1B4B4B;
+            margin-bottom: 18px;
+        }
+        .s-card__icon svg { width: 24px; height: 24px; }
+        .s-card--featured .s-card__icon { background: rgba(255, 255, 255, 0.12); color: #E07A6A; }
+
+        .s-card__number {
+            font-family: 'New Spirit', Georgia, serif;
+            font-weight: 500;
+            font-size: 32px;
+            color: #1B4B4B;
+            line-height: 1;
+            margin-bottom: 18px;
+        }
+        .s-card--featured .s-card__number { color: #FAF7F4; }
+
+        .s-card__eyebrow {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 700;
+            color: #1B4B4B;
+            margin-bottom: 14px;
+        }
+        .s-card--featured .s-card__eyebrow { color: #E07A6A; }
+
+        .s-card__title {
+            font-family: 'New Spirit', Georgia, serif;
+            font-weight: 500;
+            font-size: 22px;
+            color: #1B4B4B;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .s-card--featured .s-card__title { color: #FAF7F4; }
+
+        .s-card__stat {
+            font-family: 'New Spirit', Georgia, serif;
+            font-weight: 500;
+            font-size: 32px;
+            color: #1B4B4B;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .s-card__body {
+            font-size: 15px;
+            color: rgba(27, 75, 75, 0.65);
+            line-height: 1.55;
+        }
+        .s-card--featured .s-card__body { color: rgba(250, 247, 244, 0.7); }
+
+        /* ─────────────────────────────────────────────
+           .s-panel — single white container with internal dividers.
+           Used for "checklist" (rows) and "stat trio" (cols).
+           ───────────────────────────────────────────── */
+        .s-panel {
+            background: #fff;
+            border: 1px solid rgba(27, 75, 75, 0.10);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .s-panel--cols { display: grid; }
+        .s-panel--cols.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .s-panel--cols > * { border-right: 1px solid rgba(27, 75, 75, 0.10); padding: 32px 24px; text-align: center; }
+        .s-panel--cols > *:last-child { border-right: none; }
+        .s-panel--rows > * { border-bottom: 1px solid rgba(27, 75, 75, 0.10); padding: 18px 24px; }
+        .s-panel--rows > *:last-child { border-bottom: none; }
+        @media (max-width: 700px) {
+            .s-panel--cols.cols-3 { grid-template-columns: 1fr; }
+            .s-panel--cols > * { border-right: none; border-bottom: 1px solid rgba(27, 75, 75, 0.10); }
+            .s-panel--cols > *:last-child { border-bottom: none; }
+        }
+
+        /* Checklist row */
+        .s-check-row { display: flex; align-items: flex-start; gap: 14px; font-size: 15.5px; color: #1B4B4B; }
+        .s-check-row::before {
+            content: '';
+            flex-shrink: 0;
+            width: 22px; height: 22px;
+            background: #10b981;
+            -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='5 13 9 17 19 7'/></svg>") no-repeat center / contain;
+                    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='5 13 9 17 19 7'/></svg>") no-repeat center / contain;
+            margin-top: 1px;
+        }
+
+        /* ─────────────────────────────────────────────
+           .s-steps — numbered timeline with dashed coral connector
+           ───────────────────────────────────────────── */
+        .s-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+            position: relative;
+        }
+        .s-steps::before {
+            content: '';
+            position: absolute;
+            top: 32px; left: 8%; right: 8%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, #E07A6A 0 8px, transparent 8px 16px);
+            z-index: 0;
+        }
+        .s-step { position: relative; z-index: 1; }
+        .s-step__num {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #1B4B4B;
+            display: grid; place-items: center;
+            font-family: 'New Spirit', Georgia, serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1B4B4B;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(22, 67, 71, 0.06);
+        }
+        .s-step__title {
+            font-family: 'New Spirit', Georgia, serif;
+            font-weight: 500;
+            font-size: 19px;
+            color: #1B4B4B;
+            margin-bottom: 8px;
+        }
+        .s-step__body {
+            font-size: 14px;
+            color: rgba(27, 75, 75, 0.65);
+            line-height: 1.5;
+        }
+        @media (max-width: 800px) {
+            .s-steps { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .s-steps::before { display: none; }
+        }
+
         /* Service cards — vertical (.cover-card) */
         .sg-cover-card {
             background: #fff;
@@ -579,9 +740,13 @@
             <div class="sg-group">Components</div>
             <a href="#buttons">Buttons &amp; CTAs</a>
             <a href="#store-badges">Store badges</a>
+            <a href="#card-system">Card system</a>
             <a href="#cards">Page cards</a>
             <a href="#service-cards">Service cards</a>
             <a href="#service-cards-alt">Service cards (alt)</a>
+            <a href="#checklist">Checklist</a>
+            <a href="#stat-trio">Stat trio</a>
+            <a href="#steps">Steps timeline</a>
             <a href="#tabs">Tabs</a>
             <a href="#value-props">Value props</a>
             <a href="#feature-row">Feature rows</a>
@@ -823,7 +988,82 @@ sploot-mint   #E8F4F0</pre>
             </div>
         </section>
 
-        <!-- ─── Cards ─── -->
+        <!-- ─── Card system ─── -->
+        <section id="card-system" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Card system</h2>
+            <p class="sg-desc">Single base — <code>.s-card</code> — plus BEM slot elements (<code>__icon</code>, <code>__number</code>, <code>__eyebrow</code>, <code>__title</code>, <code>__stat</code>, <code>__body</code>) and modifiers (<code>--featured</code> dark teal, <code>--bordered</code> coral edge, <code>--hoverable</code> lift on hover). Use this for any new card and migrate existing one-offs (<code>.inc-card</code>, <code>.why-card</code>, <code>.cover-card</code>) to it over time.</p>
+
+            <div class="sg-demo" data-label="Plain + slots" style="padding: 28px;">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Plain -->
+                    <div class="s-card">
+                        <h3 class="s-card__title">Plain card</h3>
+                        <p class="s-card__body">Just the base. Title and body, nothing else.</p>
+                    </div>
+                    <!-- With icon -->
+                    <div class="s-card">
+                        <div class="s-card__icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        </div>
+                        <h3 class="s-card__title">With icon</h3>
+                        <p class="s-card__body">Icon tile (cream bg, teal stroke) above the title.</p>
+                    </div>
+                    <!-- With number -->
+                    <div class="s-card">
+                        <div class="s-card__number">01</div>
+                        <h3 class="s-card__title">With number</h3>
+                        <p class="s-card__body">Big serif number replaces the icon slot.</p>
+                    </div>
+                    <!-- With stat -->
+                    <div class="s-card s-card--center">
+                        <div class="s-card__eyebrow">Adult Pets</div>
+                        <div class="s-card__stat">Once a year</div>
+                        <p class="s-card__body">Annual wellness exam</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sg-demo" data-label="Modifiers" style="padding: 28px; margin-top: 16px;">
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <div class="s-card s-card--featured">
+                        <div class="s-card__icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517"/></svg>
+                        </div>
+                        <h3 class="s-card__title">Featured</h3>
+                        <p class="s-card__body">Dark teal background for promo / hero cards.</p>
+                    </div>
+                    <div class="s-card s-card--bordered s-card--hoverable">
+                        <div class="s-card__icon" style="background: rgba(224, 122, 106, 0.1); color: #E07A6A;">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="s-card__title">Bordered</h3>
+                        <p class="s-card__body">Coral edge for "act now" or attention cards. Hovers up.</p>
+                    </div>
+                    <div class="s-card s-card--hoverable">
+                        <div class="s-card__icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        </div>
+                        <h3 class="s-card__title">Hoverable</h3>
+                        <p class="s-card__body">Add <code>.s-card--hoverable</code> for the lift+shadow effect.</p>
+                    </div>
+                </div>
+            </div>
+
+<pre class="sg-code">&lt;div class="s-card"&gt;
+  &lt;div class="s-card__icon"&gt;&lt;svg/&gt;&lt;/div&gt;     &lt;!-- or __number, or __eyebrow + __stat --&gt;
+  &lt;h3 class="s-card__title"&gt;Title&lt;/h3&gt;
+  &lt;p class="s-card__body"&gt;Supporting text.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Modifiers (additive) --&gt;
+.s-card--featured   /* dark teal */
+.s-card--bordered   /* coral edge */
+.s-card--center     /* center-aligned content */
+.s-card--hoverable  /* lift + shadow on hover */</pre>
+        </section>
+
+        <!-- ─── Page cards ─── -->
         <section id="cards" class="sg-section">
             <p class="sg-eyebrow">Components</p>
             <h2>Page cards</h2>
@@ -936,6 +1176,85 @@ sploot-mint   #E8F4F0</pre>
                 </div>
             </div>
             <p class="text-xs text-sploot-teal/55 mt-3">Used on: <a class="underline" href="../primary-care/">primary-care</a> §5 "beyond". Class hook: <code>.beyond-link</code>.</p>
+        </section>
+
+        <!-- ─── Checklist ─── -->
+        <section id="checklist" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Checklist</h2>
+            <p class="sg-desc">Vertical list of items with a green checkmark glyph and thin separators between rows. Used for "what to bring" / prep lists. Built on <code>.s-panel.s-panel--rows</code> with <code>.s-check-row</code> children.</p>
+
+            <div class="sg-demo">
+                <ul class="s-panel s-panel--rows" style="list-style: none; padding: 0; margin: 0;">
+                    <li class="s-check-row">Previous medical records (if you're new to Sploot)</li>
+                    <li class="s-check-row">A list of any medications or supplements your pet is on</li>
+                    <li class="s-check-row">Notes on anything you've noticed at home — even things that seem small</li>
+                    <li class="s-check-row">A fresh stool sample if your vet has asked for one</li>
+                    <li class="s-check-row">A leash or carrier (and your pet's favorite treat doesn't hurt)</li>
+                </ul>
+            </div>
+            <p class="text-xs text-sploot-teal/55 mt-3">Used on: <a class="underline" href="../wellness-exams/">wellness-exams</a> §6 "prep". Class hooks: <code>.s-panel.s-panel--rows</code> + <code>.s-check-row</code>.</p>
+        </section>
+
+        <!-- ─── Stat trio ─── -->
+        <section id="stat-trio" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Stat trio</h2>
+            <p class="sg-desc">Three columns inside one panel with vertical dividers. Each cell: uppercase eyebrow → large serif phrase → small subline. Stacks on mobile. Built on <code>.s-panel.s-panel--cols.cols-3</code>.</p>
+
+            <div class="sg-demo" style="background: transparent; border: none; padding: 0;">
+                <div class="s-panel s-panel--cols cols-3">
+                    <div>
+                        <div class="s-card__eyebrow">Puppies &amp; Kittens</div>
+                        <div class="s-card__stat">Every 3–4 weeks</div>
+                        <p class="s-card__body">Until 4 months old</p>
+                    </div>
+                    <div>
+                        <div class="s-card__eyebrow">Adult Pets</div>
+                        <div class="s-card__stat">Once a year</div>
+                        <p class="s-card__body">Annual wellness exam</p>
+                    </div>
+                    <div>
+                        <div class="s-card__eyebrow">Senior Pets (7+)</div>
+                        <div class="s-card__stat">Every 6 months</div>
+                        <p class="s-card__body">With routine bloodwork</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-sploot-teal/55 mt-3">Used on: <a class="underline" href="../wellness-exams/">wellness-exams</a> §5 "cadence". Class hooks: <code>.s-panel.s-panel--cols.cols-3</code> + card slot elements.</p>
+        </section>
+
+        <!-- ─── Steps timeline ─── -->
+        <section id="steps" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Steps timeline</h2>
+            <p class="sg-desc">Numbered process flow with a dashed coral connector running between the circles. Four 64px outlined circles, each followed by a heading and a paragraph. Connector hides on mobile; circles stack 2-up.</p>
+
+            <div class="sg-demo">
+                <div class="s-steps">
+                    <div class="s-step">
+                        <div class="s-step__num">1</div>
+                        <h4 class="s-step__title">Check-in &amp; history</h4>
+                        <p class="s-step__body">A quick weigh-in and a chat about how things have been at home — appetite, energy, new behaviors or concerns.</p>
+                    </div>
+                    <div class="s-step">
+                        <div class="s-step__num">2</div>
+                        <h4 class="s-step__title">Nose-to-tail exam</h4>
+                        <p class="s-step__body">Your vet listens to heart and lungs, checks eyes, ears, mouth, skin, joints, and abdomen. About 15 minutes hands-on.</p>
+                    </div>
+                    <div class="s-step">
+                        <div class="s-step__num">3</div>
+                        <h4 class="s-step__title">Vaccines &amp; diagnostics</h4>
+                        <p class="s-step__body">Any boosters or in-house lab work happen during the same visit. Most bloodwork comes back the same day.</p>
+                    </div>
+                    <div class="s-step">
+                        <div class="s-step__num">4</div>
+                        <h4 class="s-step__title">Plan &amp; takeaways</h4>
+                        <p class="s-step__body">You'll leave with clear notes, refilled preventives if needed, and an upfront estimate for anything we recommend next.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-sploot-teal/55 mt-3">Used on: <a class="underline" href="../wellness-exams/">wellness-exams</a> §4 "steps". Class hooks: <code>.s-steps</code>, <code>.s-step</code>, <code>.s-step__num</code>.</p>
         </section>
 
         <!-- ─── Tabs ─── -->
