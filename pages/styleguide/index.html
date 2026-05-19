@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>Style Guide — Sploot</title>
+    <meta name="description" content="Sploot brand and component reference: colors, typography, navbar, buttons, cards, FAQ, testimonials, phone mockups, and more.">
+    <meta name="robots" content="noindex">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/sploot-faq.css">
+
+    <style>
+        @font-face {
+            font-family: 'New Spirit';
+            src: url('/Fonts/NewSpiritTRIAL-Regular%20copy.otf') format('opentype');
+            font-weight: 400; font-style: normal;
+        }
+        @font-face {
+            font-family: 'New Spirit';
+            src: url('/Fonts/NewSpiritTRIAL-Medium%20copy.otf') format('opentype');
+            font-weight: 500; font-style: normal;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sploot-teal': '#1B4B4B',
+                        'sploot-coral': '#E07A6A',
+                        'sploot-cream': '#F2EAE4',
+                        'sploot-mint': '#E8F4F0',
+                        'sploot-paper': '#FAF7F4',
+                    },
+                    fontFamily: {
+                        'heading': ['New Spirit', 'Georgia', 'serif'],
+                        'sans': ['Outfit', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background: #F2EAE4; color: #1B4B4B; font-family: 'Outfit', system-ui, sans-serif; }
+        .font-heading { font-family: 'New Spirit', Georgia, serif; }
+        .font-heading.font-bold { font-weight: 500; }
+
+        /* ─── Page chrome ─── */
+        .sg-bar {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(250, 247, 244, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(27, 75, 75, 0.08);
+        }
+
+        /* Side nav (desktop) */
+        .sg-sidenav {
+            position: sticky; top: 80px;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        .sg-sidenav a {
+            display: block;
+            font-size: 13px;
+            padding: 6px 10px;
+            color: rgba(27, 75, 75, 0.6);
+            border-left: 2px solid transparent;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+        .sg-sidenav a:hover { color: #1B4B4B; }
+        .sg-sidenav a.active {
+            color: #E07A6A;
+            border-left-color: #E07A6A;
+            font-weight: 600;
+        }
+        .sg-sidenav .sg-group {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: rgba(27, 75, 75, 0.4);
+            padding: 18px 10px 6px;
+            border-left: 2px solid transparent;
+        }
+
+        /* Section container */
+        .sg-section {
+            scroll-margin-top: 96px;
+            padding: 56px 0 64px;
+            border-bottom: 1px solid rgba(27, 75, 75, 0.08);
+        }
+        .sg-section:last-child { border-bottom: none; }
+        .sg-section h2 {
+            font-family: 'New Spirit', Georgia, serif;
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 1.1;
+            color: #1B4B4B;
+            margin-bottom: 4px;
+        }
+        .sg-section .sg-eyebrow {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #E07A6A;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .sg-section .sg-desc {
+            color: rgba(27, 75, 75, 0.7);
+            line-height: 1.55;
+            max-width: 60ch;
+            margin-bottom: 28px;
+            font-size: 15px;
+        }
+
+        /* Component frame */
+        .sg-demo {
+            background: #FAF7F4;
+            border: 1px solid rgba(27, 75, 75, 0.08);
+            border-radius: 18px;
+            padding: 32px;
+            position: relative;
+        }
+        .sg-demo + .sg-demo { margin-top: 16px; }
+        .sg-demo[data-label]::before {
+            content: attr(data-label);
+            position: absolute;
+            top: 12px; right: 16px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 700;
+            color: rgba(27, 75, 75, 0.4);
+        }
+        .sg-demo--dark {
+            background: #1B4B4B;
+            border-color: transparent;
+            color: #FAF7F4;
+        }
+        .sg-demo--dark[data-label]::before { color: rgba(250, 247, 244, 0.45); }
+
+        /* Code block */
+        .sg-code {
+            background: #1B4B4B;
+            color: #d8e6e2;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 12.5px;
+            line-height: 1.55;
+            padding: 16px 18px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-top: 16px;
+            white-space: pre;
+        }
+
+        /* Color swatches */
+        .sg-swatch {
+            border-radius: 14px;
+            padding: 24px;
+            min-height: 140px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            border: 1px solid rgba(27, 75, 75, 0.08);
+        }
+        .sg-swatch .name { font-weight: 600; font-size: 14px; }
+        .sg-swatch .hex { font-family: ui-monospace, monospace; font-size: 12px; opacity: 0.7; }
+
+        /* Type sample */
+        .sg-type-sample {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 24px;
+            align-items: baseline;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(27, 75, 75, 0.06);
+        }
+        .sg-type-sample:last-child { border-bottom: none; }
+        .sg-type-sample .meta {
+            font-family: ui-monospace, monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(27, 75, 75, 0.55);
+        }
+
+        /* Sample buttons */
+        .btn-coral {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #E07A6A; color: #fff;
+            padding: 10px 20px; border-radius: 9999px;
+            font-weight: 600; font-size: 14px;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-coral:hover { background: #fff; color: #E07A6A; border-color: #E07A6A; }
+        .btn-teal-outline {
+            display: inline-flex; align-items: center; gap: 8px;
+            border: 2px solid #1B4B4B; color: #1B4B4B;
+            padding: 9px 20px; border-radius: 9999px;
+            font-weight: 600; font-size: 14px;
+            background: transparent;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-teal-outline:hover { background: #1B4B4B; color: #fff; }
+        .btn-teal-solid {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #1B4B4B; color: #fff;
+            padding: 10px 20px; border-radius: 9999px;
+            font-weight: 600; font-size: 14px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-teal-solid:hover { background: #0E2A2A; }
+        .btn-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: #E07A6A; font-weight: 600; font-size: 14px;
+            text-decoration: none;
+        }
+        .btn-link svg { transition: transform 0.2s ease; }
+        .btn-link:hover svg { transform: translateX(3px); }
+
+        /* Page-card replica (matches homepage) */
+        .pg-card {
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid rgba(27, 75, 75, 0.06);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex; flex-direction: column;
+            padding: 28px;
+        }
+        .pg-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px -20px rgba(27, 75, 75, 0.18); }
+        .pg-card-arrow { transition: transform 0.2s ease; }
+        .pg-card:hover .pg-card-arrow { transform: translateX(3px); }
+
+        /* Store badge */
+        .sg-store-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #1B4B4B; color: #fff;
+            padding: 11px 18px; border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .sg-store-badge:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -10px rgba(27,75,75,0.35); }
+        .sg-store-badge svg { width: 26px; height: 26px; flex-shrink: 0; }
+        .sg-store-badge .label-small { font-size: 10px; line-height: 1.1; opacity: 0.75; letter-spacing: 0.04em; text-transform: uppercase; }
+        .sg-store-badge .label-large { font-family: 'New Spirit', Georgia, serif; font-weight: 500; font-size: 18px; line-height: 1.1; margin-top: 2px; }
+
+        /* Phone mockup (mini reference) */
+        .sg-phone {
+            position: relative;
+            width: 200px;
+            aspect-ratio: 9 / 19.5;
+            background: #1B4B4B;
+            border-radius: 32px;
+            padding: 7px;
+            box-shadow: 0 24px 50px -22px rgba(27, 75, 75, 0.4);
+        }
+        .sg-phone::before {
+            content: '';
+            position: absolute;
+            top: 12px; left: 50%; transform: translateX(-50%);
+            width: 64px; height: 18px;
+            background: #0c2929; border-radius: 999px; z-index: 3;
+        }
+        .sg-phone-screen {
+            width: 100%; height: 100%;
+            background: #FAF7F4;
+            border-radius: 26px;
+            overflow: hidden;
+        }
+
+        /* Reveal-on-scroll demo */
+        .demo-reveal {
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .demo-reveal.in { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOP BAR
+     ═══════════════════════════════════════════════════════════ -->
+<header class="sg-bar">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+        <a href="../../index.html" class="inline-flex items-center gap-3 text-sploot-teal">
+            <img src="/photos/logo.avif" alt="Sploot" class="h-7 w-auto">
+            <span class="font-mono text-xs uppercase tracking-[0.16em] text-sploot-teal/55 border-l border-sploot-teal/15 pl-3">Style Guide</span>
+        </a>
+        <a href="../../index.html" class="font-mono text-xs uppercase tracking-[0.14em] text-sploot-teal/55 hover:text-sploot-coral transition-colors">← Back to home</a>
+    </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════ -->
+<section class="px-6 lg:px-10 pt-16 lg:pt-24 pb-12">
+    <div class="max-w-7xl mx-auto">
+        <p class="text-xs uppercase tracking-[0.18em] text-sploot-coral font-bold mb-4">Sploot Design System · v0.1</p>
+        <h1 class="font-heading font-medium text-5xl md:text-6xl text-sploot-teal leading-[1.05] max-w-3xl mb-5">The building blocks of splootvets.com.</h1>
+        <p class="text-lg text-sploot-teal/75 max-w-2xl leading-relaxed">A working reference for the colors, type, components, and patterns used across the site. Use the side nav to jump around; copy markup and styles as needed.</p>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN LAYOUT — side nav + sections
+     ═══════════════════════════════════════════════════════════ -->
+<div class="max-w-7xl mx-auto px-6 lg:px-10 pb-24 grid lg:grid-cols-[200px_1fr] gap-10">
+
+    <!-- Side nav -->
+    <aside class="hidden lg:block">
+        <nav class="sg-sidenav">
+            <div class="sg-group">Foundations</div>
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+
+            <div class="sg-group">Navigation</div>
+            <a href="#navbar">Navbar</a>
+            <a href="#footer">Footer</a>
+
+            <div class="sg-group">Components</div>
+            <a href="#buttons">Buttons &amp; CTAs</a>
+            <a href="#store-badges">Store badges</a>
+            <a href="#cards">Page cards</a>
+            <a href="#value-props">Value props</a>
+            <a href="#feature-row">Feature rows</a>
+            <a href="#phone-mockup">Phone mockup</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#faq">FAQ</a>
+            <a href="#qr">QR card</a>
+
+            <div class="sg-group">Patterns</div>
+            <a href="#section-header">Section header</a>
+            <a href="#cta-section">Closing CTA</a>
+            <a href="#motion">Motion</a>
+        </nav>
+    </aside>
+
+    <!-- Sections -->
+    <main>
+
+        <!-- ─── Colors ─── -->
+        <section id="colors" class="sg-section">
+            <p class="sg-eyebrow">Foundations</p>
+            <h2>Colors</h2>
+            <p class="sg-desc">Cream dominates the canvas, teal carries text and dark sections, coral is the surgical accent (CTAs, eyebrows, one highlight word per headline). Mint shows up in small icon tiles and the occasional soft section.</p>
+
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                <div class="sg-swatch" style="background: #1B4B4B; color: #FAF7F4;"><div class="name">Teal</div><div class="hex">#1B4B4B</div></div>
+                <div class="sg-swatch" style="background: #E07A6A; color: #fff;"><div class="name">Coral</div><div class="hex">#E07A6A</div></div>
+                <div class="sg-swatch" style="background: #F2EAE4;"><div class="name">Cream</div><div class="hex">#F2EAE4</div></div>
+                <div class="sg-swatch" style="background: #FAF7F4;"><div class="name">Paper</div><div class="hex">#FAF7F4</div></div>
+                <div class="sg-swatch" style="background: #E8F4F0;"><div class="name">Mint</div><div class="hex">#E8F4F0</div></div>
+            </div>
+
+            <p class="text-xs uppercase tracking-[0.14em] text-sploot-teal/55 font-bold mt-8 mb-2">Tailwind tokens</p>
+<pre class="sg-code">sploot-teal   #1B4B4B
+sploot-coral  #E07A6A
+sploot-cream  #F2EAE4
+sploot-paper  #FAF7F4   /* lighter cream, header & dropdown surfaces */
+sploot-mint   #E8F4F0</pre>
+        </section>
+
+        <!-- ─── Typography ─── -->
+        <section id="typography" class="sg-section">
+            <p class="sg-eyebrow">Foundations</p>
+            <h2>Typography</h2>
+            <p class="sg-desc"><strong>New Spirit</strong> for display and headings (max weight 500 — the font doesn't go heavier). <strong>Outfit</strong> for body and UI, full 300–700 range available.</p>
+
+            <div class="sg-demo">
+                <div class="sg-type-sample">
+                    <div class="meta">New Spirit 500<br>72/1.05</div>
+                    <div class="font-heading font-bold text-sploot-teal" style="font-size: 72px; line-height: 1.05;">Display 1</div>
+                </div>
+                <div class="sg-type-sample">
+                    <div class="meta">New Spirit 500<br>48/1.1</div>
+                    <div class="font-heading font-bold text-sploot-teal" style="font-size: 48px; line-height: 1.1;">Display 2</div>
+                </div>
+                <div class="sg-type-sample">
+                    <div class="meta">New Spirit 500<br>32/1.1</div>
+                    <div class="font-heading font-bold text-sploot-teal" style="font-size: 32px; line-height: 1.1;">Heading H2</div>
+                </div>
+                <div class="sg-type-sample">
+                    <div class="meta">New Spirit 500<br>24/1.2</div>
+                    <div class="font-heading font-bold text-sploot-teal" style="font-size: 24px; line-height: 1.2;">Heading H3</div>
+                </div>
+                <div class="sg-type-sample">
+                    <div class="meta">Outfit 600<br>11/1 · 0.18em</div>
+                    <div class="text-xs uppercase tracking-[0.18em] text-sploot-coral font-bold">Eyebrow Label</div>
+                </div>
+                <div class="sg-type-sample">
+                    <div class="meta">Outfit 400<br>17/1.55</div>
+                    <div class="text-sploot-teal/85" style="font-size: 17px; line-height: 1.55;">Body paragraph — primary reading size used across feature copy, FAQ answers, and most marketing prose on the site.</div>
+                </div>
+                <div class="sg-type-sample">
+                    <div class="meta">Outfit 400<br>14/1.5</div>
+                    <div class="text-sploot-teal/70" style="font-size: 14px; line-height: 1.5;">Smaller body for captions, supporting text, and dense UI surfaces.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Navbar ─── -->
+        <section id="navbar" class="sg-section">
+            <p class="sg-eyebrow">Navigation</p>
+            <h2>Navbar</h2>
+            <p class="sg-desc">Sticky mega-header with backdrop blur, brand left, primary nav center, coral "Book Now" right. Mobile collapses to a hamburger that opens a vertical drawer.</p>
+
+            <div class="sg-demo" data-label="Header" style="padding: 0; overflow: hidden;">
+                <div style="background: rgba(250, 247, 244, 0.95); border-bottom: 1px solid rgba(27, 75, 75, 0.08); height: 64px; display: flex; align-items: center; padding: 0 24px; gap: 24px;">
+                    <img src="/photos/logo.avif" alt="Sploot" class="h-8 w-auto">
+                    <nav class="hidden md:flex items-center gap-1 flex-1">
+                        <a class="px-3 py-2 text-sm font-medium text-sploot-teal hover:text-sploot-coral transition-colors" href="#">Locations</a>
+                        <a class="px-3 py-2 text-sm font-medium text-sploot-teal hover:text-sploot-coral transition-colors" href="#">Services</a>
+                        <a class="px-3 py-2 text-sm font-medium text-sploot-teal hover:text-sploot-coral transition-colors" href="#">Plans &amp; Pricing</a>
+                        <a class="px-3 py-2 text-sm font-medium text-sploot-teal hover:text-sploot-coral transition-colors" href="#">Pharmacy</a>
+                        <a class="px-3 py-2 text-sm font-medium text-sploot-teal hover:text-sploot-coral transition-colors" href="#">App</a>
+                    </nav>
+                    <a href="#" class="btn-coral !text-sm !py-2">Book Now</a>
+                </div>
+            </div>
+            <p class="text-xs text-sploot-teal/55 mt-3">Used on: every page. Lives inline in each HTML file with brand colors, blur, mega-dropdowns (Services / Locations).</p>
+        </section>
+
+        <!-- ─── Footer ─── -->
+        <section id="footer" class="sg-section">
+            <p class="sg-eyebrow">Navigation</p>
+            <h2>Footer</h2>
+            <p class="sg-desc">Dark teal panel, four columns: brand + tagline, Pages, Locations, Get in Touch. Coral "Book an Appointment" pill sits in the contact column.</p>
+
+            <div class="sg-demo sg-demo--dark" data-label="Footer" style="padding: 32px;">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                    <div class="col-span-2 md:col-span-1">
+                        <img src="/photos/logo.avif" alt="Sploot" class="h-7 w-auto brightness-0 invert mb-3">
+                        <p class="text-white/50 text-xs leading-relaxed max-w-xs">Primary &amp; urgent veterinary care, open 365 days a year.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-[10px] uppercase tracking-[0.15em] text-white/40 mb-3">Pages</h4>
+                        <ul class="space-y-2 text-xs text-white/70">
+                            <li>About</li><li>The App</li><li>Pharmacy</li><li>Membership</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-[10px] uppercase tracking-[0.15em] text-white/40 mb-3">Locations</h4>
+                        <ul class="space-y-2 text-xs text-white/70">
+                            <li>Denver</li><li>Chicago</li><li>Colorado Springs</li><li>Salt Lake City</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-[10px] uppercase tracking-[0.15em] text-white/40 mb-3">Get in Touch</h4>
+                        <p class="text-xs text-white/70 mb-3">(720) 770-8656</p>
+                        <a class="inline-flex items-center gap-2 bg-sploot-coral text-white text-xs font-semibold px-3 py-1.5 rounded-full">Book →</a>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p class="text-[11px] text-white/30">© 2026 Sploot Veterinary Care.</p>
+                    <div class="flex gap-4 text-[11px] text-white/30"><span>Privacy</span><span>Terms</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Buttons ─── -->
+        <section id="buttons" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Buttons &amp; CTAs</h2>
+            <p class="sg-desc">Coral primary for the moment of conversion (Book Now, Get the App). Teal outline or solid for secondary actions. Inline arrow link for tertiary or in-flow CTAs.</p>
+
+            <div class="sg-demo flex flex-wrap items-center gap-4" data-label="Buttons">
+                <a href="#" class="btn-coral">Book Now</a>
+                <a href="#" class="btn-teal-solid">Get the App</a>
+                <a href="#" class="btn-teal-outline">Secondary</a>
+                <a href="#" class="btn-link">Explore primary care
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
+
+<pre class="sg-code">&lt;a class="btn-coral"&gt;Book Now&lt;/a&gt;
+&lt;a class="btn-teal-solid"&gt;Get the App&lt;/a&gt;
+&lt;a class="btn-teal-outline"&gt;Secondary&lt;/a&gt;
+&lt;a class="btn-link"&gt;Explore →&lt;/a&gt;</pre>
+        </section>
+
+        <!-- ─── Store badges ─── -->
+        <section id="store-badges" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Store badges</h2>
+            <p class="sg-desc">App Store and Google Play download buttons. Apple icon stays monochrome; Google Play uses its branded multi-color triangle.</p>
+
+            <div class="sg-demo flex flex-wrap gap-3" data-label="Default">
+                <a href="https://apps.apple.com/us/app/sploot-vets/id6451157992" class="sg-store-badge" aria-label="Download on the App Store">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.02-2.4 1.96-3.56 2.05-3.61-1.12-1.63-2.85-1.85-3.47-1.88-1.47-.15-2.88.87-3.63.87-.76 0-1.91-.85-3.14-.83-1.61.03-3.1.94-3.93 2.38-1.68 2.92-.43 7.22 1.2 9.58.81 1.15 1.77 2.45 3.02 2.4 1.22-.05 1.68-.78 3.16-.78s1.89.78 3.16.75c1.31-.02 2.13-1.16 2.93-2.32.92-1.33 1.3-2.63 1.32-2.7-.03-.01-2.54-.97-2.57-3.86zm-2.49-7.07c.67-.81 1.13-1.94 1-3.07-.97.04-2.14.65-2.83 1.46-.62.72-1.17 1.87-1.02 2.98 1.08.08 2.19-.55 2.85-1.37z"/></svg>
+                    <div><div class="label-small">Download on the</div><div class="label-large">App Store</div></div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.splootvets.mobile&hl=en_US" class="sg-store-badge" aria-label="Get it on Google Play">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#34A853" d="M3.6 20.5c.2.1.4.1.6.1.3 0 .6-.1.8-.3l9.7-5.6-2.6-2.6-8.5 8.4z"/>
+                        <path fill="#FBBC04" d="M17.6 11.5l-2.9-1.7-3.1 3 3.1 3 2.9-1.7c.9-.5 1.4-1.2 1.4-2 0-.7-.5-1.4-1.4-2.6z"/>
+                        <path fill="#4285F4" d="M3.5 3.5c-.1.2-.1.4-.1.7v15.6c0 .3 0 .5.1.7l8.8-8.5-8.8-8.5z"/>
+                        <path fill="#EA4335" d="M14.7 9.8L4.9 4.2c-.2-.1-.5-.2-.7-.2-.2 0-.4 0-.6.1l8.5 8.4 2.6-2.7z"/>
+                    </svg>
+                    <div><div class="label-small">Get it on</div><div class="label-large">Google Play</div></div>
+                </a>
+            </div>
+
+            <div class="sg-demo sg-demo--dark flex flex-wrap gap-3 mt-4" data-label="On dark">
+                <a href="#" class="sg-store-badge !bg-white !text-sploot-teal">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.02-2.4 1.96-3.56 2.05-3.61-1.12-1.63-2.85-1.85-3.47-1.88-1.47-.15-2.88.87-3.63.87-.76 0-1.91-.85-3.14-.83-1.61.03-3.1.94-3.93 2.38-1.68 2.92-.43 7.22 1.2 9.58.81 1.15 1.77 2.45 3.02 2.4 1.22-.05 1.68-.78 3.16-.78s1.89.78 3.16.75c1.31-.02 2.13-1.16 2.93-2.32.92-1.33 1.3-2.63 1.32-2.7-.03-.01-2.54-.97-2.57-3.86z"/></svg>
+                    <div><div class="label-small !text-sploot-teal/60">Download on the</div><div class="label-large">App Store</div></div>
+                </a>
+                <a href="#" class="sg-store-badge !bg-white !text-sploot-teal">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#34A853" d="M3.6 20.5c.2.1.4.1.6.1.3 0 .6-.1.8-.3l9.7-5.6-2.6-2.6-8.5 8.4z"/>
+                        <path fill="#FBBC04" d="M17.6 11.5l-2.9-1.7-3.1 3 3.1 3 2.9-1.7c.9-.5 1.4-1.2 1.4-2 0-.7-.5-1.4-1.4-2.6z"/>
+                        <path fill="#4285F4" d="M3.5 3.5c-.1.2-.1.4-.1.7v15.6c0 .3 0 .5.1.7l8.8-8.5-8.8-8.5z"/>
+                        <path fill="#EA4335" d="M14.7 9.8L4.9 4.2c-.2-.1-.5-.2-.7-.2-.2 0-.4 0-.6.1l8.5 8.4 2.6-2.7z"/>
+                    </svg>
+                    <div><div class="label-small !text-sploot-teal/60">Get it on</div><div class="label-large">Google Play</div></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ─── Cards ─── -->
+        <section id="cards" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Page cards</h2>
+            <p class="sg-desc">The homepage grid uses three variants: standard white, dark-teal featured (SplootRx, The Sploot App), and white with a coral border accent (Today's Availability).</p>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+                <a class="pg-card" href="#">
+                    <div class="w-12 h-12 rounded-2xl bg-sploot-mint flex items-center justify-center mb-5 text-sploot-coral">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-sploot-teal mb-2">Primary Care</h3>
+                    <p class="text-sploot-teal/65 text-sm leading-relaxed mb-5 flex-1">Annual exams, vaccines, dental, and parasite prevention — all the routine care that keeps your pet healthy.</p>
+                    <span class="inline-flex items-center text-xs font-semibold text-sploot-coral">
+                        Explore primary care
+                        <svg class="w-4 h-4 ml-2 pg-card-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </span>
+                </a>
+
+                <a class="pg-card !bg-sploot-teal !text-white" href="#">
+                    <div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center mb-5 text-sploot-coral">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-2">SplootRx Pharmacy</h3>
+                    <p class="text-white/60 text-sm leading-relaxed mb-5 flex-1">Prescription meds, diet food &amp; preventatives — approved by your Sploot vet and shipped to your door.</p>
+                    <span class="inline-flex items-center text-xs font-semibold text-sploot-coral">
+                        Shop SplootRx
+                        <svg class="w-4 h-4 ml-2 pg-card-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </span>
+                </a>
+
+                <a class="pg-card sm:col-span-2 !border-2 !border-sploot-coral/20" href="#">
+                    <div class="w-12 h-12 rounded-2xl bg-sploot-coral/10 flex items-center justify-center mb-5 text-sploot-coral">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-sploot-teal mb-2">Today's Availability</h3>
+                    <p class="text-sploot-teal/65 text-sm leading-relaxed mb-5">Find the clinic nearest you with the earliest available appointment time. Same-day care when you need it.</p>
+                    <span class="inline-flex items-center text-xs font-semibold text-sploot-coral">
+                        Check availability
+                        <svg class="w-4 h-4 ml-2 pg-card-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </span>
+                </a>
+            </div>
+            <p class="text-xs text-sploot-teal/55 mt-4">Used on: homepage page-card grid. The full-width <code>sm:col-span-2</code> variant works as a featured "last word" CTA.</p>
+        </section>
+
+        <!-- ─── Value props ─── -->
+        <section id="value-props" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Value-prop trio</h2>
+            <p class="sg-desc">Three cards in a row, with the middle card in mint as the visual anchor. Used at the top of feature/landing pages to summarize the offer in one glance.</p>
+
+            <div class="sg-demo" style="padding: 24px;">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-3xl p-6">
+                        <div class="w-10 h-10 rounded-xl bg-white border border-sploot-teal/10 flex items-center justify-center mb-4 text-sploot-coral">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-sploot-teal mb-1">Book in under a minute</h3>
+                        <p class="text-sploot-teal/65 text-sm leading-relaxed">Pick the service, the day, the vet. Reschedule with a tap if life intervenes.</p>
+                    </div>
+                    <div class="bg-sploot-mint rounded-3xl p-6">
+                        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center mb-4 text-sploot-coral">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-sploot-teal mb-1">All in one place</h3>
+                        <p class="text-sploot-teal/65 text-sm leading-relaxed">Records, discharge instructions, and invoices — always at your fingertips.</p>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6">
+                        <div class="w-10 h-10 rounded-xl bg-white border border-sploot-teal/10 flex items-center justify-center mb-4 text-sploot-coral">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2"/></svg>
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-sploot-teal mb-1">SplootRx in your pocket</h3>
+                        <p class="text-sploot-teal/65 text-sm leading-relaxed">Refill prescriptions and stock up on preventives — shipped straight to your door.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Feature row ─── -->
+        <section id="feature-row" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Feature row</h2>
+            <p class="sg-desc">Two-column row used to deep-dive a feature: copy on one side (eyebrow, heading, body, bulleted benefits) and a screen-card on the other. Alternate the order between rows for rhythm.</p>
+
+            <div class="sg-demo" style="padding: 24px;">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.18em] text-sploot-coral font-bold mb-3">Booking</p>
+                        <h3 class="font-heading text-3xl font-bold text-sploot-teal leading-tight mb-4">Booking, without the hold music.</h3>
+                        <p class="text-sploot-teal/70 leading-relaxed mb-5">Every Sploot clinic, every available time slot — laid out for you. Pick the service, the day, the vet. Reschedule from inside the app if plans change.</p>
+                        <ul class="space-y-2 text-sploot-teal/80 text-sm">
+                            <li class="flex items-start gap-3"><span class="w-4 h-4 rounded-full bg-sploot-mint grid place-items-center flex-shrink-0 mt-0.5"><svg class="w-2.5 h-2.5 text-sploot-teal" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Wellness, urgent, dental, and surgery</li>
+                            <li class="flex items-start gap-3"><span class="w-4 h-4 rounded-full bg-sploot-mint grid place-items-center flex-shrink-0 mt-0.5"><svg class="w-2.5 h-2.5 text-sploot-teal" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Switch between locations on the fly</li>
+                            <li class="flex items-start gap-3"><span class="w-4 h-4 rounded-full bg-sploot-mint grid place-items-center flex-shrink-0 mt-0.5"><svg class="w-2.5 h-2.5 text-sploot-teal" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Calendar invite and reminder push</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-3xl p-5 shadow-[0_30px_60px_-25px_rgba(27,75,75,0.22)] border border-sploot-teal/8">
+                        <p class="text-[10px] uppercase tracking-[0.14em] text-sploot-teal/55 font-bold mb-3">Booking · Bagel</p>
+                        <div class="bg-sploot-coral/10 border border-sploot-coral/25 rounded-2xl p-3 mb-4 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-white text-sploot-coral grid place-items-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold leading-tight text-sploot-teal">Annual wellness exam</p>
+                                <p class="text-[11px] text-sploot-teal/60">45 min · Commons Park</p>
+                            </div>
+                            <svg class="w-4 h-4 text-sploot-coral" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2 text-center text-xs font-semibold mb-4">
+                            <div class="rounded-lg bg-sploot-cream py-2 text-sploot-teal">9:00<br><span class="text-[9px] text-sploot-teal/55">AM</span></div>
+                            <div class="rounded-lg bg-sploot-coral text-white py-2">10:30<br><span class="text-[9px] text-white/75">AM</span></div>
+                            <div class="rounded-lg bg-sploot-cream py-2 text-sploot-teal">1:15<br><span class="text-[9px] text-sploot-teal/55">PM</span></div>
+                            <div class="rounded-lg bg-sploot-cream py-2 text-sploot-teal">3:00<br><span class="text-[9px] text-sploot-teal/55">PM</span></div>
+                        </div>
+                        <button class="w-full bg-sploot-coral text-white font-semibold py-2.5 rounded-full text-sm">Next</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Phone mockup ─── -->
+        <section id="phone-mockup" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Phone mockup</h2>
+            <p class="sg-desc">CSS-only iPhone-shaped frame with a black dynamic-island pill. Drop a screenshot inside, optionally overlay floating "chip" notifications around it for added visual interest.</p>
+
+            <div class="sg-demo flex flex-wrap items-center gap-8" data-label="Frame only" style="background: #FAF7F4;">
+                <div class="sg-phone">
+                    <div class="sg-phone-screen flex items-center justify-center text-xs text-sploot-teal/40">screenshot</div>
+                </div>
+                <div class="text-sm text-sploot-teal/70 max-w-xs">
+                    <p class="font-heading text-lg font-bold text-sploot-teal mb-2">Recipe</p>
+                    <p class="text-xs leading-relaxed">9:19.5 aspect, dark teal bezel, black dynamic-island pill on top. The internal status bar overlays time + battery icons; screenshots inside fill the screen with <code>object-cover</code>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Testimonials ─── -->
+        <section id="testimonials" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>Testimonials</h2>
+            <p class="sg-desc">Coral five-star rating, body quote, then a small avatar + name + location/pets line at the bottom. Three cards in a row at desktop.</p>
+
+            <div class="sg-demo" style="padding: 24px;">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-3xl p-6">
+                        <div class="flex items-center gap-0.5 text-sploot-coral mb-3">
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                        </div>
+                        <p class="text-sploot-teal/85 leading-relaxed mb-4 text-sm">"Booking used to mean phone tag for a week. Now I can tap a reminder and Bagel's annual is on the calendar in 20 seconds."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-sploot-coral/20 grid place-items-center font-bold text-sploot-coral text-sm">M</div>
+                            <div>
+                                <p class="font-semibold text-sploot-teal text-sm">Maya R.</p>
+                                <p class="text-xs text-sploot-teal/60">Denver · Bagel &amp; Mango</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6">
+                        <div class="flex items-center gap-0.5 text-sploot-coral mb-3">
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                        </div>
+                        <p class="text-sploot-teal/85 leading-relaxed mb-4 text-sm">"Reordering Pretzel's heartworm meds used to mean a phone call and a pharmacy trip. Now I tap once in SplootRx."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-sploot-teal/15 grid place-items-center font-bold text-sploot-teal text-sm">J</div>
+                            <div>
+                                <p class="font-semibold text-sploot-teal text-sm">Jordan P.</p>
+                                <p class="text-xs text-sploot-teal/60">Chicago · Pretzel</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6">
+                        <div class="flex items-center gap-0.5 text-sploot-coral mb-3">
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M10 1l2.5 6 6.5.5-5 4.5 1.5 6.5L10 15l-5.5 3.5L6 12 1 7.5 7.5 7z"/></svg>
+                        </div>
+                        <p class="text-sploot-teal/85 leading-relaxed mb-4 text-sm">"Vaccine certificates pulled up at boarding check-in — no more digging through emails."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-sploot-coral/20 grid place-items-center font-bold text-sploot-coral text-sm">S</div>
+                            <div>
+                                <p class="font-semibold text-sploot-teal text-sm">Sam &amp; Tess L.</p>
+                                <p class="text-xs text-sploot-teal/60">Salt Lake City · Biscuit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── FAQ ─── -->
+        <section id="faq" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>FAQ</h2>
+            <p class="sg-desc">Loaded from <code>/styles/sploot-faq.css</code>. Cream pill cards with a coral <code>+</code> that becomes <code>−</code> when open. Open state switches to a white background with a coral border.</p>
+
+            <div class="sg-demo">
+                <div class="sploot-faq">
+                    <details open>
+                        <summary>Is the Sploot app free?</summary>
+                        <div class="faq-answer-body">Yes — completely free for current Sploot clients. No subscription and no in-app fees.</div>
+                    </details>
+                    <details>
+                        <summary>Can I order prescriptions through the app?</summary>
+                        <div class="faq-answer-body">Yes — SplootRx, our in-house pharmacy, lives inside the app. Refill an active prescription in two taps, and we'll ship it straight to your door.</div>
+                    </details>
+                    <details>
+                        <summary>Which devices are supported?</summary>
+                        <div class="faq-answer-body">iOS 15+ and Android 8+. Published on the App Store and Google Play.</div>
+                    </details>
+                </div>
+            </div>
+
+<pre class="sg-code">&lt;link rel="stylesheet" href="/styles/sploot-faq.css"&gt;
+
+&lt;div class="sploot-faq"&gt;
+  &lt;details&gt;
+    &lt;summary&gt;Question?&lt;/summary&gt;
+    &lt;div class="faq-answer-body"&gt;Answer.&lt;/div&gt;
+  &lt;/details&gt;
+&lt;/div&gt;</pre>
+        </section>
+
+        <!-- ─── QR card ─── -->
+        <section id="qr" class="sg-section">
+            <p class="sg-eyebrow">Components</p>
+            <h2>QR card</h2>
+            <p class="sg-desc">Used in the closing CTA on the app landing page. White card, "SCAN TO DOWNLOAD" eyebrow, the real QR, and a tiny caption. Points at <code>splootvets.com/get-app</code> which redirects mobile visitors to the right store.</p>
+
+            <div class="sg-demo sg-demo--dark flex flex-wrap items-center gap-8" data-label="On dark CTA">
+                <div class="bg-white rounded-3xl p-5 w-full max-w-[260px]">
+                    <p class="text-[11px] uppercase tracking-[0.18em] text-sploot-teal/60 font-bold mb-3 text-center">Scan to download</p>
+                    <a href="https://splootvets.com/get-app" class="block rounded-xl overflow-hidden">
+                        <img src="/photos/qr-get-app.png" alt="QR to splootvets.com/get-app" class="w-full h-auto block">
+                    </a>
+                    <p class="text-xs text-sploot-teal/70 mt-3 text-center">Point your camera here to install</p>
+                </div>
+                <div class="text-sm text-white/80 max-w-xs">
+                    <p class="font-heading text-lg font-bold text-white mb-2">Behavior</p>
+                    <p class="text-xs leading-relaxed">QR encodes the universal <code>/get-app</code> link. iOS scanners deep-link into the App Store; Android scanners deep-link into Play Store; desktop scanners just open the page.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Section header ─── -->
+        <section id="section-header" class="sg-section">
+            <p class="sg-eyebrow">Patterns</p>
+            <h2>Section header</h2>
+            <p class="sg-desc">Coral eyebrow in caps with wide letter-spacing, then a large New Spirit heading on the next line. Used to introduce nearly every section across the site.</p>
+
+            <div class="sg-demo">
+                <p class="text-xs uppercase tracking-[0.18em] text-sploot-coral font-bold mb-3">Pet Parent FAQs</p>
+                <h3 class="font-heading text-4xl md:text-5xl font-bold text-sploot-teal leading-tight">The stuff you're probably wondering.</h3>
+            </div>
+<pre class="sg-code">&lt;p class="text-xs uppercase tracking-[0.18em] text-sploot-coral font-bold mb-3"&gt;
+  Eyebrow Label
+&lt;/p&gt;
+&lt;h2 class="font-heading text-4xl md:text-5xl font-bold text-sploot-teal leading-tight"&gt;
+  The heading goes here.
+&lt;/h2&gt;</pre>
+        </section>
+
+        <!-- ─── Closing CTA ─── -->
+        <section id="cta-section" class="sg-section">
+            <p class="sg-eyebrow">Patterns</p>
+            <h2>Closing CTA</h2>
+            <p class="sg-desc">Dark teal rounded panel that ends nearly every page. Headline + supporting copy on the left, store badges or single button below; QR card or supporting visual on the right.</p>
+
+            <div class="sg-demo" style="padding: 0;">
+                <div class="bg-sploot-teal rounded-[28px] p-10 overflow-hidden relative">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-sploot-coral/30 blur-3xl"></div>
+                    <div class="relative grid md:grid-cols-2 gap-8 items-start">
+                        <div>
+                            <h3 class="font-heading text-3xl font-bold text-white leading-tight mb-3">Bring your pet's care everywhere.</h3>
+                            <p class="text-white/75 leading-relaxed mb-6 text-sm max-w-md">Download the Sploot app and book, refill, remember — wherever the road takes you both.</p>
+                            <div class="flex flex-wrap gap-3">
+                                <a class="sg-store-badge !bg-white !text-sploot-teal" href="#">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.02-2.4 1.96-3.56 2.05-3.61-1.12-1.63-2.85-1.85-3.47-1.88-1.47-.15-2.88.87-3.63.87-.76 0-1.91-.85-3.14-.83-1.61.03-3.1.94-3.93 2.38-1.68 2.92-.43 7.22 1.2 9.58.81 1.15 1.77 2.45 3.02 2.4 1.22-.05 1.68-.78 3.16-.78s1.89.78 3.16.75c1.31-.02 2.13-1.16 2.93-2.32.92-1.33 1.3-2.63 1.32-2.7-.03-.01-2.54-.97-2.57-3.86z"/></svg>
+                                    <div><div class="label-small !text-sploot-teal/60">Download on the</div><div class="label-large">App Store</div></div>
+                                </a>
+                                <a class="sg-store-badge !bg-white !text-sploot-teal" href="#">
+                                    <svg viewBox="0 0 24 24"><path fill="#34A853" d="M3.6 20.5c.2.1.4.1.6.1.3 0 .6-.1.8-.3l9.7-5.6-2.6-2.6-8.5 8.4z"/><path fill="#FBBC04" d="M17.6 11.5l-2.9-1.7-3.1 3 3.1 3 2.9-1.7c.9-.5 1.4-1.2 1.4-2 0-.7-.5-1.4-1.4-2.6z"/><path fill="#4285F4" d="M3.5 3.5c-.1.2-.1.4-.1.7v15.6c0 .3 0 .5.1.7l8.8-8.5-8.8-8.5z"/><path fill="#EA4335" d="M14.7 9.8L4.9 4.2c-.2-.1-.5-.2-.7-.2-.2 0-.4 0-.6.1l8.5 8.4 2.6-2.7z"/></svg>
+                                    <div><div class="label-small !text-sploot-teal/60">Get it on</div><div class="label-large">Google Play</div></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex md:justify-end">
+                            <div class="bg-white rounded-2xl p-4 w-full max-w-[200px]">
+                                <p class="text-[10px] uppercase tracking-[0.18em] text-sploot-teal/60 font-bold mb-2 text-center">Scan to download</p>
+                                <img src="/photos/qr-get-app.png" alt="" class="w-full h-auto block rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Motion ─── -->
+        <section id="motion" class="sg-section">
+            <p class="sg-eyebrow">Patterns</p>
+            <h2>Motion</h2>
+            <p class="sg-desc">Two recurring motion patterns: <strong>reveal-on-scroll</strong> for content as you read down a page (subtle rise + fade), and a <strong>card stagger</strong> entrance on the homepage grid (cascading 120ms delay between cards).</p>
+
+            <div class="sg-demo" data-label="Reveal-on-scroll">
+                <button id="demo-reveal-btn" class="btn-coral !text-sm !py-2 mb-5">Replay animation</button>
+                <div class="grid sm:grid-cols-3 gap-3" id="demo-reveal-grid">
+                    <div class="demo-reveal bg-white rounded-2xl p-4 text-sm font-semibold text-sploot-teal">Item one</div>
+                    <div class="demo-reveal bg-white rounded-2xl p-4 text-sm font-semibold text-sploot-teal" style="transition-delay: 0.12s;">Item two</div>
+                    <div class="demo-reveal bg-white rounded-2xl p-4 text-sm font-semibold text-sploot-teal" style="transition-delay: 0.24s;">Item three</div>
+                </div>
+            </div>
+
+<pre class="sg-code">.reveal { opacity: 0; transform: translateY(20px);
+          transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.in { opacity: 1; transform: translateY(0); }</pre>
+        </section>
+
+    </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JS — sidenav active state + reveal demo
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+// Sidenav active-state tracking via IntersectionObserver
+(function () {
+    var links = document.querySelectorAll('.sg-sidenav a[href^="#"]');
+    var byId = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting && byId[e.target.id]) {
+                links.forEach(function (l) { l.classList.remove('active'); });
+                byId[e.target.id].classList.add('active');
+            }
+        });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+    document.querySelectorAll('.sg-section[id]').forEach(function (s) { io.observe(s); });
+})();
+
+// Reveal demo
+(function () {
+    var btn = document.getElementById('demo-reveal-btn');
+    var grid = document.getElementById('demo-reveal-grid');
+    if (!btn || !grid) return;
+    function play() {
+        grid.querySelectorAll('.demo-reveal').forEach(function (el) { el.classList.remove('in'); });
+        setTimeout(function () {
+            grid.querySelectorAll('.demo-reveal').forEach(function (el) { el.classList.add('in'); });
+        }, 40);
+    }
+    btn.addEventListener('click', play);
+    // Auto-play once on first view
+    new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { play(); }});
+    }, { threshold: 0.4 }).observe(grid);
+})();
+</script>
+
+</body>
+</html>
