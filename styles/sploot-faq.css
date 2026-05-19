@@ -1,0 +1,77 @@
+/* ──────────────────────────────────────────────────────────────
+   Sploot FAQ component
+   ──────────────────────────────────────────────────────────────
+   Shared FAQ pattern used across splootvets.com pages.
+
+   Usage:
+     <link rel="stylesheet" href="/styles/sploot-faq.css">
+
+     <section>
+       <p class="text-xs uppercase ...">Pet Parent FAQs</p>
+       <h2>The stuff you're probably wondering.</h2>
+
+       <div class="sploot-faq">
+         <details>
+           <summary>Question?</summary>
+           <div class="faq-answer-body">
+             Answer text. <a href="/somewhere">Inline links</a> get
+             the coral underline treatment automatically.
+           </div>
+         </details>
+       </div>
+     </section>
+   ────────────────────────────────────────────────────────────── */
+
+.sploot-faq {
+    max-width: 880px;
+    margin: 24px auto 0;
+}
+
+.sploot-faq details {
+    background: #FAF7F4;
+    border: 1px solid rgba(27, 75, 75, 0.08);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+}
+
+.sploot-faq details[open] {
+    background: #FFFFFF;
+    border-color: rgba(226, 94, 90, 0.35);
+}
+
+.sploot-faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #1B4B4B;
+    font-size: 17px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.sploot-faq summary::-webkit-details-marker { display: none; }
+
+.sploot-faq summary::after {
+    content: '+';
+    font-size: 24px;
+    color: #E25E5A;
+    line-height: 1;
+    transition: transform .2s ease;
+}
+
+.sploot-faq details[open] summary::after { content: '\2013'; }
+
+.sploot-faq .faq-answer-body {
+    margin-top: 12px;
+    color: #444;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.sploot-faq .faq-answer-body a {
+    color: #E25E5A;
+    text-decoration: underline;
+}
