@@ -28,6 +28,8 @@
     { "source": "/wellness-exams", "destination": "/pages/wellness-exams/index.html" },
     { "source": "/wellness-exams/", "destination": "/pages/wellness-exams/index.html" },
     { "source": "/locations/denver", "destination": "/pages/locations/denver/index.html" },
-    { "source": "/locations/denver/", "destination": "/pages/locations/denver/index.html" }
+    { "source": "/locations/denver/", "destination": "/pages/locations/denver/index.html" },
+    { "source": "/locations/denver/highlands", "destination": "/pages/locations/denver/highlands/index.html" },
+    { "source": "/locations/denver/highlands/", "destination": "/pages/locations/denver/highlands/index.html" }
   ]
 }
