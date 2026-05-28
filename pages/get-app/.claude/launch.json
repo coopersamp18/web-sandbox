@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Static site (python http.server)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8000", "--directory", "/Users/cooper/Documents/Code/Website/Web-Sandbox"],
+      "port": 8000
+    }
+  ]
+}
